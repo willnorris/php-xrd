@@ -1,0 +1,19 @@
+<XRDS xmlns="xri://$xrds">
+	<XRD xmlns:simple="http://xrds-simple.net/core/1.0" xml:id="foo" xmlns="xri://$XRD*($v*2.0)" version="2.0">
+		<Type>xri://$xrds*simple</Type>
+		<Service priority="10">
+			<Type>http://specs.example.com/wish_list/1.0</Type>
+			<MediaType>image/jpeg</MediaType>
+			<simple:MustSupport>x-urn:foo</simple:MustSupport>
+			<URI simple:httpMethod="GET">http://books.example.com/wishlist</URI>
+			<LocalID>jane</LocalID>
+		</Service>
+		<Service priority="20">
+			<Type>http://specs.example.com/wish_list/1.0</Type>
+			<Type>http://specs.example.com/wish_list/2.0</Type>
+			<URI simple:httpMethod="GET" priority="10">https://dvds.example.org/lists/wishes</URI>
+			<URI simple:httpMethod="GET" priority="20">http://dvds.example.org/lists/wishes</URI>
+			<LocalID>janedoe</LocalID>
+		</Service>
+	</XRD>
+</XRDS>
