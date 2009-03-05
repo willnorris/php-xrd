@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPUnit/Framework.php';
-require_once 'XRDS.php';
+require_once 'XRD.php';
  
 class ParserTest extends PHPUnit_Framework_TestCase {
 
@@ -13,23 +13,18 @@ class ParserTest extends PHPUnit_Framework_TestCase {
 
 	public function testParsing() {
 		$file = $this->data_dir . 'example.xml';
-		$xrds = XRDS::load($file);
-		print_r($xrds);
+		$xrd = XRD::load($file);
 
-		$this->assertEquals(1, sizeof($xrds->xrd));
-		$this->assertEquals(2, sizeof($xrds->xrd[0]->service));
+		$this->assertEquals(1, sizeof($xrd->type));
+		$this->assertEquals(2, sizeof($xrd->link));
 
-		$xml = $xrds->to_xml();
-		$xrds2 = XRDS::loadXML($xml);
-		$this->assertEquals($xrds, $xrds2);
-	}
-
-	public function testParsing2() {
-		$file = $this->data_dir . 'vidoop.xml';
-		$xrds = XRDS::load($file);
+		$xml = $xrd->to_xml(true);
+		$xrd2 = XRD::loadXML($xml);
+		$this->assertEquals($xrd, $xrd2);
 	}
 
 	public function testServiceRetrieval() {
+		return;
 		$file = $this->data_dir . 'example.xml';
 		$xrds = XRDS::load($file);
 

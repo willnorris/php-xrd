@@ -1,166 +1,197 @@
 <?php
 
-require_once('XRDS/XRD.php');
+require_once('XRD/Type.php');
+require_once('XRD/Link.php');
 
 /**
- * XRDS-Simple Document.
- *
- * @see http://xrds-simple.net/core/1.0/
+ * XRDS Descriptor.
  */
-class XRDS {
-
-	/** 
-	 * XRDS XML Namespace 
-	 */
-	const XRDS_NS = 'xri://$xrds';
-
+class XRD {
 
 	/** 
 	 * XRD XML Namespace 
 	 */
-	const XRD_NS = 'xri://$XRD*($v*2.0)';
-
-
-	/** 
-	 * OpenID XML Namespace 
-	 */
-	const OPENID_NS = 'http://openid.net/xmlns/1.0';
-
+	const XRD_NS = 'http://xrd.org/1.0';
 
 	/** 
-	 * XRDS-Simple XML Namespace
-	 */
-	const SIMPLE_NS = 'http://xrds-simple.net/core/1.0';
-
-
-	/** 
-	 * XRDS Descriptors 
+	 * Expiration date for this descriptor. 
 	 *
-	 * @var array of XRDS_XRD objects
+	 * @var string
 	 */
-	public $xrd;
-
-
-	/** Constructor */
-	public function __construct() {
-		$this->xrd = array();
-	}
+	public $expires;
 
 
 	/** 
-	 * Get the URI for the Service that includes the specified type(s).  
-	 * If the service contains multiple URIs, only one is returned (based 
-	 * on priority).
+	 * Subject
 	 *
-	 * @param mixed $type a single type string, or an array of types
-	 * @return object XRDS_URI for the service
+	 * @var string
 	 */
-	public function getServiceURI($type) {
-		$service = $this->getService($type);
-		if ($service) {
-			return $service->uri[0];
-		}
-	}
+	public $subject;
 
 
 	/** 
-	 * Get the Service that includes the specified type(s).  
-	 * If multiple service are found, only one is returned (based 
-	 * on priority).
+	 * Aliases
 	 *
-	 * @param mixed $type a single type string, or an array of types
-	 * @return object XRDS_Service with specified type(s)
+	 * @var array of strings
 	 */
-	public function getService($type) {
-		if (!is_array($type)) {
-			$type = array($type);
-		}
-
-		foreach ($this->xrd as $xrd) {
-			foreach ($xrd->service as $service) {
-				foreach ($type as $t) {
-					if (!in_array($t, $service->type)) {
-						continue 2;
-					}
-				}
-				return $service;
-			}
-		}
-	}
+	public $alias;
 
 
-	/* Marshalling / Unmarshalling functions */
+	/** 
+	 * Types. 
+	 *
+	 * @var array of XRD_Type objects
+	 */
+	public $type;
+
+
+	/** 
+	 * Links. 
+	 *
+	 * @var array of XRD_Link objects
+	 */
+	public $link;
+
 
 	/**
-	 * Create an XRDS object from the specified file.
+	 * Constructor.
+	 *
+	 * @param mixed $type XRD_Type object or array of XRD_Type objects
+	 * @param mixed $link XRD_Link object or array of XRD_Link objects
+	 * @param mixed $link Alias string or array of Alias strings
+	 * @param string $subject XRD subject
+	 * @param string $expires expiration date
+	 */
+	public function __construct($type=null, $link=null, $alias=null, $subject=null, $expires=null) {
+		if (!is_array($type)) $type = array_filter(array($type));
+		$this->type = $type;
+
+		if (!is_array($link)) $link = array_filter(array($link));
+		$this->link = $link;
+
+		if (!is_array($alias)) $alias = array_filter(array($alias));
+		$this->alias = $alias;
+
+		$this->expires = $expires;
+		$this->subject = $subject;
+	}
+
+
+	/**
+	 * Create an XRD object from a DOMElement
+	 *
+	 * @param DOMElement $dom DOM element to load
+	 * @return XRDS_XRD object
+	 */
+	public static function from_dom(DOMElement $dom) {
+		$xrd = new XRD();
+
+		foreach ($dom->childNodes as $node) {
+			if (!isset($node->tagName)) continue;
+
+			switch($node->tagName) {
+				case 'Expires':
+					$xrd->expires = $node->nodeValue;
+					break;
+
+				case 'Subject':
+					$xrd->expires = $node->nodeValue;
+					break;
+
+				case 'Alias':
+					$xrd->alias[] = $node->nodeValue;
+					break;
+
+				case 'Type':
+					$type = XRD_Type::from_dom($node);
+					$xrd->type[] = $type;
+					break;
+
+				case 'Link':
+					$link = XRD_Link::from_dom($node);
+					$xrd->link[] = $link;
+					break;
+			}
+		}
+
+		usort($xrd->link, array('XRD', 'priority_sort'));
+
+		return $xrd;
+	}
+
+
+	/**
+	 * Create a DOMElement from this XRD object
+	 *
+	 * @param DOMDocument $dom document used to create elements.
+	 * @return DOMDocument
+	 */
+	public function to_dom($dom = null) {
+		if ($dom == null) {
+			$dom = new DOMDocument();
+		}
+
+		$xrd = $dom->createElementNS(XRD::XRD_NS, 'XRD');
+		$dom->appendChild($xrd);
+
+		if ($this->expires) {
+			$expires_dom = $xrd->createElement('Expires', $expires);
+			$xrd->appendChild($expires_dom);
+		}
+
+		if ($this->subject) {
+			$subject_dom = $xrd->createElement('Subject', $expires);
+			$xrd->appendChild($subject_dom);
+		}
+
+		foreach ($this->alias as $alias) {
+			$alias_dom = $dom->createElement('Alias', $alias);
+			$xrd->appendChild($alias_dom);
+		}
+
+		foreach ($this->type as $type) {
+			$type_dom = $dom->createElement('Type', $type);
+			$xrd->appendChild($type_dom);
+		}
+
+		foreach ($this->link as $link) {
+			$link_dom = $link->to_dom($dom);
+			$xrd->appendChild($link_dom);
+		}
+
+		return $dom;
+	}
+
+
+	/**
+	 * Create an XRD object from the specified file.
 	 *
 	 * @param string $file file to load
-	 * @return XRDS object
+	 * @return XRD object
 	 * @see DOMDocument::load
 	 */
 	public static function load($file) {
 		$dom = new DOMDocument();
 		$dom->load($file);
-		$xrds_elements = $dom->getElementsByTagName('XRDS');
+		$xrd_elements = $dom->getElementsByTagName('XRD');
 		
-		return self::from_dom($xrds_elements->item(0));
+		return self::from_dom($xrd_elements->item(0));
 	}
 
 
 	/**
-	 * Create an XRDS object from the specified XML string.
+	 * Create an XRD object from the specified XML string.
 	 *
 	 * @param string $xml XML string to load
-	 * @return XRDS object
+	 * @return XRD object
 	 * @see DOMDocument::loadXML
 	 */
 	public static function loadXML($xml) {
 		$dom = new DOMDocument();
 		$dom->loadXML($xml);
-		$xrds_elements = $dom->getElementsByTagName('XRDS');
-		
-		return self::from_dom($xrds_elements->item(0));
-	}
-
-
-	/**
-	 * Create an XRDS object from a DOMElement.
-	 *
-	 * @param DOMElement $dom DOM element to load
-	 * @return XRDS object
-	 */
-	public static function from_dom(DOMElement $dom) {
-		$xrds = new XRDS();
-
 		$xrd_elements = $dom->getElementsByTagName('XRD');
-		foreach ($xrd_elements as $element) {
-			$xrd = XRDS_XRD::from_dom($element);
-			$xrds->xrd[] = $xrd;
-		}
-
-		return $xrds;
-	}
-
-
-	/**
-	 * Create a DOMDocument from this XRDS object.
-	 *
-	 * @return DOMDocument
-	 */
-	public function to_dom() {
-		$dom = new DOMDocument();
-		$xrds = $dom->createElementNS(XRDS::XRDS_NS, 'XRDS');
-		$dom->appendChild($xrds);
-
-		$xrds->setAttribute('xmlns:simple', XRDS::SIMPLE_NS);
-		$xrds->setAttribute('xmlns:openid', XRDS::OPENID_NS);
-
-		foreach ($this->xrd as $xrd) {
-			$xrd_dom = $xrd->to_dom($dom);
-			$xrds->appendChild($xrd_dom);
-		}
-
-		return $dom;
+		
+		return self::from_dom($xrd_elements->item(0));
 	}
 
 
@@ -178,7 +209,7 @@ class XRDS {
 
 
 	/**
-	 * Compare items based on the priority rules of XRDS-Simple.  
+	 * Compare items based on the priority rules of XRDS.  
 	 * Items are sorted in increasing priority order, with null 
 	 * values interpreted as infinity.
 	 *
@@ -204,6 +235,7 @@ class XRDS {
 		if ($a->priority > $b->priority) return 1;
 		if ($a->priority < $b->priority) return -1;
 	}
+
 }
 
 ?>
