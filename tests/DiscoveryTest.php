@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/TestCase.php';
-require_once 'Discovery/Method.php';
+require_once 'Discovery/HostMeta.php';
  
 class DiscoveryTest extends Discovery_TestCase {
 
