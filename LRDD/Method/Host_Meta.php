@@ -50,8 +50,7 @@ class LRDD_Method_Host_Meta implements LRDD_Method {
 			// TODO do something with the other host-meta entries
 			if (strcasecmp($name, 'link') != 0) continue;
 
-			$link = LRDD_Link::from_header($value);
-			if ($link) {
+			if ($link = LRDD_Link::from_header($value)) {
 				$links[] = $link;
 			}
 		}
