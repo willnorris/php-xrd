@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Date: Fri, 06 Mar 2009 22:49:17 GMT
+Server: Apache
+Last-Modified: Fri, 06 Mar 2009 22:43:19 GMT
+Etag: "b9-a4-4647b02f08075"
+Accept-Ranges: bytes
+Content-Length: 164
+Vary: Accept-Encoding
+Link: <http://openxrd.org/sitemap.xml>; 
+	rel=index
+Link: <http://openxrd.org/xrd.xml>; rel=describedby; 
+ rel="alternate http://example.com/custom/rel"; type="application/xrd+xml"
+Connection: close
+Content-Type: text/html
+
