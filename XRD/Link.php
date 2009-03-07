@@ -68,21 +68,11 @@ class XRD_Link {
 	 * @param int $priority Priority
 	 */
 	public function __construct($rel=null, $media_type=null, $uri=null, $template_uri=null, $local_id=null, $priority=10) {
-		if (!is_array($rel)) $rel = array_filter(array($rel));
-		$this->rel = $rel;
-
-		if (!is_array($media_type)) $media_type = array_filter(array($media_type));
-		$this->media_type = $media_type;
-
-		if (!is_array($uri)) $uri = array_filter(array($uri));
-		$this->uri = $uri;
-
-		if (!is_array($template_uri)) $template_uri = array_filter(array($template_uri));
-		$this->template_uri = $template_uri;
-
-		if (!is_array($local_id)) $local_id = array_filter(array($local_id));
-		$this->local_id = $local_id;
-
+		$this->rel = (array) $rel;
+		$this->media_type = (array) $media_type;
+		$this->uri = (array) $uri;
+		$this->template_uri = (array) $template_uri;
+		$this->local_id = (array) $local_id;
 		$this->priority = $priority;
 	}
 

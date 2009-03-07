@@ -68,15 +68,9 @@ class XRD {
 	 * @param string $expires expiration date
 	 */
 	public function __construct($type=null, $link=null, $alias=null, $subject=null, $expires=null) {
-		if (!is_array($type)) $type = array_filter(array($type));
-		$this->type = $type;
-
-		if (!is_array($link)) $link = array_filter(array($link));
-		$this->link = $link;
-
-		if (!is_array($alias)) $alias = array_filter(array($alias));
-		$this->alias = $alias;
-
+		$this->type = (array) $type;
+		$this->link = (array) $link;
+		$this->alias = (array) $alias;
 		$this->expires = $expires;
 		$this->subject = $subject;
 	}
