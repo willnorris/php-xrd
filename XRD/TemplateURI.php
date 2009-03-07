@@ -13,10 +13,10 @@ class XRD_TemplateURI extends XRD_URI {
 
 
 	/**
-	 * Create an XRD_URI object from a DOMElement.
+	 * Create an XRD_TemplateURI object from a DOMElement.
 	 *
 	 * @param DOMElement $dom DOM element to load
-	 * @return XRD_URI object
+	 * @return XRD_TemplateURI object
 	 */
 	public static function from_dom(DOMElement $dom) {
 		$uri = new self();

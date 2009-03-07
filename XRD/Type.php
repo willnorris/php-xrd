@@ -70,13 +70,13 @@ class XRD_Type {
 	 * @return DOMElement
 	 */
 	public function to_dom($dom) {
-		$type = $dom->createElement('Type', $this->uri);
+		$type_dom = $dom->createElement('Type', $this->uri);
 
 		if ($this->required) {
-			$type->setAttribute('required', $this->required);
+			$type_dom->setAttribute('required', $this->required);
 		}
 
-		return $type;
+		return $type_dom;
 	}
 
 }

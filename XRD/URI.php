@@ -70,13 +70,13 @@ class XRD_URI {
 	 */
 	public function to_dom($dom) {
 		$nodeName = $this->nodeName();
-		$uri = $dom->createElement($nodeName, $this->uri);
+		$uri_dom = $dom->createElement($nodeName, $this->uri);
 
 		if ($this->priority) {
-			$uri->setAttribute('priority', $this->priority);
+			$uri_dom->setAttribute('priority', $this->priority);
 		}
 
-		return $uri;
+		return $uri_dom;
 	}
 
 }

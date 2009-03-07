@@ -12,18 +12,18 @@ class XRD_LocalID extends XRD_URI {
 	}
 
 	/**
-	 * Create an XRD_URI object from a DOMElement.
+	 * Create an XRD_LocalID object from a DOMElement.
 	 *
 	 * @param DOMElement $dom DOM element to load
-	 * @return XRD_URI object
+	 * @return XRD_LocalID object
 	 */
 	public static function from_dom(DOMElement $dom) {
-		$uri = new self();
+		$local_id = new self();
 
-		$uri->priority = $dom->getAttribute('priority');
-		$uri->uri = $dom->nodeValue;
+		$local_id->priority = $dom->getAttribute('priority');
+		$local_id->uri = $dom->nodeValue;
 
-		return $uri;
+		return $local_id;
 	}
 }
 

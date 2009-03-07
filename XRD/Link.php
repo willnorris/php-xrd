@@ -38,7 +38,7 @@ class XRD_Link {
 	 *
 	 * @var array of XRD_URI objects
 	 */
-	public $template_uri;
+	public $uri;
 
 
 	/** 
@@ -46,7 +46,7 @@ class XRD_Link {
 	 *
 	 * @var array of XRD_TemplateURI objects
 	 */
-	public $uri;
+	public $template_uri;
 
 
 	/** 
@@ -132,38 +132,38 @@ class XRD_Link {
 	 * @return DOMElement
 	 */
 	public function to_dom($dom) {
-		$link = $dom->createElement('Link');
+		$link_dom = $dom->createElement('Link');
 
 		if ($this->priority) {
-			$link->setAttribute('priority', $this->priority);
+			$link_dom->setAttribute('priority', $this->priority);
 		}
 
 		foreach ($this->rel as $rel) {
 			$rel_dom = $dom->createElement('Rel', $rel);
-			$link->appendChild($rel_dom);
+			$link_dom->appendChild($rel_dom);
 		}
 
 		foreach ($this->media_type as $type) {
 			$type_dom = $dom->createElement('MediaType', $type);
-			$link->appendChild($type_dom);
+			$link_dom->appendChild($type_dom);
 		}
 
 		foreach ($this->uri as $uri) {
 			$uri_dom = $uri->to_dom($dom);
-			$link->appendChild($uri_dom);
+			$link_dom->appendChild($uri_dom);
 		}
 
 		foreach ($this->template_uri as $template_uri) {
 			$uri_dom = $template_uri->to_dom($dom);
-			$link->appendChild($uri_dom);
+			$link_dom->appendChild($uri_dom);
 		}
 
 		foreach ($this->local_id as $local_id) {
 			$id_dom = $local_id->to_dom($dom);
-			$link->appendChild($id_dom);
+			$link_dom->appendChild($id_dom);
 		}
 
-		return $link;
+		return $link_dom;
 	}
 }
 

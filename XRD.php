@@ -130,32 +130,32 @@ class XRD {
 			$dom = new DOMDocument();
 		}
 
-		$xrd = $dom->createElementNS(XRD::XML_NS, 'XRD');
-		$dom->appendChild($xrd);
+		$xrd_dom = $dom->createElementNS(XRD::XML_NS, 'XRD');
+		$dom->appendChild($xrd_dom);
 
 		if ($this->expires) {
 			$expires_dom = $xrd->createElement('Expires', $expires);
-			$xrd->appendChild($expires_dom);
+			$xrd_dom->appendChild($expires_dom);
 		}
 
 		if ($this->subject) {
 			$subject_dom = $xrd->createElement('Subject', $expires);
-			$xrd->appendChild($subject_dom);
+			$xrd_dom->appendChild($subject_dom);
 		}
 
 		foreach ($this->alias as $alias) {
 			$alias_dom = $dom->createElement('Alias', $alias);
-			$xrd->appendChild($alias_dom);
+			$xrd_dom->appendChild($alias_dom);
 		}
 
 		foreach ($this->type as $type) {
 			$type_dom = $dom->createElement('Type', $type);
-			$xrd->appendChild($type_dom);
+			$xrd_dom->appendChild($type_dom);
 		}
 
 		foreach ($this->link as $link) {
 			$link_dom = $link->to_dom($dom);
-			$xrd->appendChild($link_dom);
+			$xrd_dom->appendChild($link_dom);
 		}
 
 		return $dom;
