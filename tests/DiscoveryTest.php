@@ -93,6 +93,34 @@ class DiscoveryTest extends Discovery_TestCase {
 		$this->assertTrue(in_array('describedby', $links[1]->rel));
 		$this->assertTrue(in_array('alternate', $links[1]->rel));
 	}
+
+	public function testFetch() {
+		$url = 'http://openxrd.org/';
+
+		// test 1 - HTML only
+		$disco = new Discovery();
+		$disco->discovery_methods = array();
+		$disco->register_discovery_method('Discovery_Method_Link_HTML');
+
+		$links = $disco->discover($url);
+		$this->assertEquals(2, sizeof($links));
+		$this->assertEquals('text/css', $links[1]->type);
+
+		// test 2 - HTML + HTTP Header
+		$disco->discovery_methods = array();
+		$disco->register_discovery_method('Discovery_Method_Link_Header');
+		$disco->register_discovery_method('Discovery_Method_Link_HTML');
+
+		$links = $disco->discover($url);
+		$this->assertEquals(2, sizeof($links));
+		$this->assertEquals('application/rss+xml', $links[1]->type);
+
+		// test 3 - all discovery methods
+		$disco = new Discovery();
+		$links = $disco->discover($url);
+		$this->assertEquals(2, sizeof($links));
+		$this->assertEquals('application/powder+xml', $links[1]->type);
+	}
 }
 
 
