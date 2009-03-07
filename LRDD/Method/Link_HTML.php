@@ -1,13 +1,13 @@
 <?php
 
-require_once 'Discovery.php';
-require_once 'Discovery/Link.php';
-require_once 'Discovery/Method.php';
+require_once 'LRDD.php';
+require_once 'LRDD/Link.php';
+require_once 'LRDD/Method.php';
 
 /**
- * Discovery Method that uses HTML <link> element
+ * LRDD Method that uses HTML <link> element
  */
-class Discovery_Method_Link_HTML implements Discovery_Method {
+class LRDD_Method_Link_HTML implements LRDD_Method {
 
 
 	public static function discover($uri) {
@@ -28,7 +28,7 @@ class Discovery_Method_Link_HTML implements Discovery_Method {
 	 * Parse the given HTML.
 	 *
 	 * @param string $content HTML content
-	 * @return array array of Discovery_Link objects
+	 * @return array array of LRDD_Link objects
 	 */
 	public static function parse($html) {
 		$links = array();
@@ -64,7 +64,7 @@ class Discovery_Method_Link_HTML implements Discovery_Method {
 				$link_type = $type_matches[1];
 			}
 
-			$links[] = new Discovery_Link($link_uri, $link_rel, $link_type);
+			$links[] = new LRDD_Link($link_uri, $link_rel, $link_type);
 		}
 
 		return $links;

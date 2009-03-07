@@ -217,14 +217,14 @@ class XRD {
 	 * Discover XRD document for specified URI.
 	 */
 	public static function discover($uri) {
-		require_once 'Discovery.php';
+		require_once 'LRDD.php';
 
-		$disco = new Discovery();
+		$disco = new LRDD();
 		$links = $disco->discover($uri);
 
 		foreach ($links as $link) {
 			if (in_array('describedby', $link->rel) && $link->type == self::CONTENT_TYPE) {
-				$content = Discovery::fetch($link->uri);
+				$content = LRDD::fetch($link->uri);
 				return self::loadXML($content);
 			}
 		}

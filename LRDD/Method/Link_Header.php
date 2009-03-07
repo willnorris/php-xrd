@@ -1,16 +1,16 @@
 <?php
 
-require_once 'Discovery.php';
-require_once 'Discovery/Link.php';
-require_once 'Discovery/Method.php';
+require_once 'LRDD.php';
+require_once 'LRDD/Link.php';
+require_once 'LRDD/Method.php';
 
 
 /**
- * Discovery Method that uses "Link" HTTP Response header
+ * LRDD Method that uses "Link" HTTP Response header
  *
  * @see http://www.ietf.org/internet-drafts/draft-nottingham-http-link-header-04.txt
  */
-class Discovery_Method_Link_Header implements Discovery_Method {
+class LRDD_Method_Link_Header implements LRDD_Method {
 
 
 	public static function discover($uri) {
@@ -36,7 +36,7 @@ class Discovery_Method_Link_Header implements Discovery_Method {
 	 * header values are included on a single line.
 	 *
 	 * @param string $content HTTP response headers
-	 * @return array array of Discovery_Link objects
+	 * @return array array of LRDD_Link objects
 	 */
 	public static function parse($content) {
 		$links = array();
@@ -64,7 +64,7 @@ class Discovery_Method_Link_Header implements Discovery_Method {
 			// we only care about "link" headers
 			if (strcasecmp($name, 'link') != 0) continue;
 
-			if ( $link = Discovery_Link::from_header($value) ) {
+			if ( $link = LRDD_Link::from_header($value) ) {
 				$links[] = $link;
 			}
 		}
