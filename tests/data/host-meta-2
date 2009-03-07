@@ -1,2 +1,2 @@
-Link: <http://openxrd.org/sitemap.xml>; rel=index 
+Link: <http://openxrd.org/sitemap.xml>; rel=index
 Link: <http://openxrd.org/xrd.xml>; rel=describedby; rel="alternate http://example.com/custom/rel"; type="application/xrd+xml"
