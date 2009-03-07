@@ -4,7 +4,7 @@ require_once('XRD/Type.php');
 require_once('XRD/Link.php');
 
 /**
- * XRDS Descriptor.
+ * XRD Descriptor.
  */
 class XRD {
 
@@ -80,7 +80,7 @@ class XRD {
 	 * Create an XRD object from a DOMElement
 	 *
 	 * @param DOMElement $dom DOM element to load
-	 * @return XRDS_XRD object
+	 * @return XRD object
 	 */
 	public static function from_dom(DOMElement $dom) {
 		$xrd = new XRD();
@@ -195,7 +195,7 @@ class XRD {
 
 
 	/**
-	 * Get the marshalled XML for this XRDS object.
+	 * Get the marshalled XML for this XRD object.
 	 *
 	 * @param boolean $format if true, XML output will be formatted
 	 * @return string marshalled xml
@@ -225,7 +225,7 @@ class XRD {
 
 
 	/**
-	 * Compare items based on the priority rules of XRDS.  
+	 * Compare items based on the priority rules of XRD.
 	 * Items are sorted in increasing priority order, with null 
 	 * values interpreted as infinity.
 	 *
