@@ -7,7 +7,7 @@ require_once 'Discovery/Method.php';
 /**
  * Discovery Method that uses HTML <link> element
  */
-class Discovery_Link_HTML implements Discovery_Method {
+class Discovery_Method_Link_HTML implements Discovery_Method {
 
 
 	public static function discover($uri) {

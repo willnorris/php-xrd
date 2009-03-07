@@ -10,7 +10,7 @@ require_once 'Discovery/Method.php';
  *
  * @see http://www.ietf.org/internet-drafts/draft-nottingham-http-link-header-04.txt
  */
-class Discovery_Link_Header implements Discovery_Method {
+class Discovery_Method_Link_Header implements Discovery_Method {
 
 
 	public static function discover($uri) {

@@ -1,16 +1,16 @@
 <?php
 
 require_once dirname(__FILE__) . '/TestCase.php';
-require_once 'Discovery/Host_Meta.php';
-require_once 'Discovery/Link_Header.php';
-require_once 'Discovery/Link_HTML.php';
+require_once 'Discovery/Method/Host_Meta.php';
+require_once 'Discovery/Method/Link_Header.php';
+require_once 'Discovery/Method/Link_HTML.php';
  
 class DiscoveryTest extends Discovery_TestCase {
 
 	public function testHostMeta() {
 		// test 1
 		$content = file_get_contents($this->data_dir . 'host-meta-1');
-		$links = Discovery_Host_Meta::parse($content);
+		$links = Discovery_Method_Host_Meta::parse($content);
 
 		$this->assertEquals(1, sizeof($links));
 		$this->assertEquals('http://openxrd.org/xrd.xml', $links[0]->uri);
@@ -20,7 +20,7 @@ class DiscoveryTest extends Discovery_TestCase {
 
 		// test 2
 		$content = file_get_contents($this->data_dir . 'host-meta-2');
-		$links = Discovery_Host_Meta::parse($content);
+		$links = Discovery_Method_Host_Meta::parse($content);
 
 		$this->assertEquals(2, sizeof($links));
 
@@ -39,7 +39,7 @@ class DiscoveryTest extends Discovery_TestCase {
 	public function testLinkHeader() {
 		// test 1
 		$content = file_get_contents($this->data_dir . 'http-headers-1.txt');
-		$links = Discovery_Link_Header::parse($content);
+		$links = Discovery_Method_Link_Header::parse($content);
 
 		$this->assertEquals(1, sizeof($links));
 		$this->assertEquals('http://openxrd.org/xrd.xml', $links[0]->uri);
@@ -49,7 +49,7 @@ class DiscoveryTest extends Discovery_TestCase {
 
 		// test 2
 		$content = file_get_contents($this->data_dir . 'http-headers-2.txt');
-		$links = Discovery_Link_Header::parse($content);
+		$links = Discovery_Method_Link_Header::parse($content);
 
 		$this->assertEquals(2, sizeof($links));
 
@@ -68,7 +68,7 @@ class DiscoveryTest extends Discovery_TestCase {
 	public function testLinkHTML() {
 		// test 1
 		$content = file_get_contents($this->data_dir . 'link-1.html');
-		$links = Discovery_Link_HTML::parse($content);
+		$links = Discovery_Method_Link_HTML::parse($content);
 
 		$this->assertEquals(1, sizeof($links));
 		$this->assertEquals('http://openxrd.org/xrd.xml', $links[0]->uri);
@@ -78,7 +78,7 @@ class DiscoveryTest extends Discovery_TestCase {
 
 		// test 2
 		$content = file_get_contents($this->data_dir . 'link-2.html');
-		$links = Discovery_Link_HTML::parse($content);
+		$links = Discovery_Method_Link_HTML::parse($content);
 
 		$this->assertEquals(2, sizeof($links));
 

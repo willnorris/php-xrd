@@ -10,7 +10,7 @@ require_once 'Discovery/Method.php';
  *
  * @see http://www.ietf.org/internet-drafts/draft-nottingham-site-meta-01.txt
  */
-class Discovery_Host_Meta implements Discovery_Method {
+class Discovery_Method_Host_Meta implements Discovery_Method {
 
 
 	public static function discover($uri) {
