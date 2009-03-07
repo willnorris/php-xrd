@@ -1,0 +1,27 @@
+This library is meant to support developers doing Link-based Resource
+Descriptor Discovery (LRDD) and working with Extensible Service Descriptors
+(XRD).
+
+
+## LRDD ##
+
+The Link-based Resource Descriptor Discovery protocol (pronounced 'lard') is a
+collection of three link methods and a common relation type ('describedby').
+Together they are used to associate a descriptor to the resource it describes.
+
+The LRDD portion of this library is only responsible for retrieving the Links
+for a resource, using the various discovery methods.
+
+
+## XRD ##
+
+The Extensible Resource Descriptor is a simple XML-based schema for describing
+resources. The schema has a two-sections architecture where one describes the
+resource itself and the other describes its relationships to other resources.
+For example, the self describing section can include information such as which
+API version the endpoint supports, while the relationships section can indicate
+where to fine the address book of the person associated with the resource.
+
+
+Above service descriptions by Eran Hammer-Lahav:
+http://www.hueniverse.com/hueniverse/2009/03/the-discovery-protocol-stack.html
