@@ -37,7 +37,7 @@ class LRDD_Method_Host_Meta implements LRDD_Method {
 	public static function parse($content) {
 		$links = array();
 
-		$lines = explode("\n", $content);
+		$lines = explode("\r\n", $content);
 
 		foreach ($lines as $line) {
 			if (empty($line)) continue;
