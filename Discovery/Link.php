@@ -23,7 +23,6 @@ class Discovery_Link {
 		$link_uri = preg_replace('(^<|>$)', '', trim($link_uri));
 
 		$link_rel = array();
-		$link_type = array();
 
 		// parse remaining link-params
 		foreach ($params as $param) {
