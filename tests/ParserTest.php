@@ -1,15 +1,9 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
+require_once dirname(__FILE__) . '/TestCase.php';
 require_once 'XRD.php';
  
-class ParserTest extends PHPUnit_Framework_TestCase {
-
-	var $data_dir;
-
-	public function __construct() {
-		$this->data_dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR;
-	}
+class ParserTest extends Discovery_TestCase {
 
 	public function testParsing() {
 		$file = $this->data_dir . 'example.xml';

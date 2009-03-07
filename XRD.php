@@ -11,7 +11,12 @@ class XRD {
 	/** 
 	 * XRD XML Namespace 
 	 */
-	const XRD_NS = 'http://xrd.org/1.0';
+	const XML_NS = 'http://xrd.org/1.0';
+
+	/**
+	 * XRD Content Type
+	 */
+	const CONTENT_TYPE = 'application/xrd+xml';
 
 	/** 
 	 * Expiration date for this descriptor. 
@@ -95,7 +100,7 @@ class XRD {
 					break;
 
 				case 'Subject':
-					$xrd->expires = $node->nodeValue;
+					$xrd->subject = $node->nodeValue;
 					break;
 
 				case 'Alias':
@@ -131,7 +136,7 @@ class XRD {
 			$dom = new DOMDocument();
 		}
 
-		$xrd = $dom->createElementNS(XRD::XRD_NS, 'XRD');
+		$xrd = $dom->createElementNS(XRD::XML_NS, 'XRD');
 		$dom->appendChild($xrd);
 
 		if ($this->expires) {
@@ -205,6 +210,24 @@ class XRD {
 		$dom = $this->to_dom();
 		$dom->formatOutput = $format;
 		return $dom->saveXML();
+	}
+
+
+	/**
+	 * Discover XRD document for specified URI.
+	 */
+	public static function discover($uri) {
+		require_once 'Discovery.php';
+
+		$disco = new Discovery();
+		$links = $disco->discover($uri);
+
+		foreach ($links as $link) {
+			if (in_array('describedby', $link->rel) && $link->type == self::CONTENT_TYPE) {
+				$content = Discovery::fetch($link->uri);
+				return self::loadXML($content);
+			}
+		}
 	}
 
 
