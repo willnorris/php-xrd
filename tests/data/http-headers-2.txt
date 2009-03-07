@@ -6,8 +6,7 @@ Etag: "b9-a4-4647b02f08075"
 Accept-Ranges: bytes
 Content-Length: 164
 Vary: Accept-Encoding
-Link: <http://openxrd.org/sitemap.xml>; 
-	rel=index
+Link: <http://openxrd.org/powder.xml>; rel=describedby; type="application/powder+xml"
 Link: <http://openxrd.org/xrd.xml>; rel=describedby; 
  rel="alternate http://example.com/custom/rel"; type="application/xrd+xml"
 Connection: close

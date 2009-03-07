@@ -48,7 +48,8 @@ class LRDD_Method_Link_Header implements LRDD_Method {
 
 		// normalize headers that are split over multiple lines
 		for ($i=(sizeof($headers)-1); $i>=0; $i--) {
-			if ( strpos($headers[$i], ' ') === 0 || strpos($headers[$i], "\t") === 0 ) {
+			$char = substr($headers[$i], 0, 1);
+			if ( $char == ' ' || $char == "\t" ) {
 				$headers[$i-1] .= preg_replace('/^\s+/', '', $headers[$i]);
 				unset($headers[$i]);
 			}
@@ -64,7 +65,8 @@ class LRDD_Method_Link_Header implements LRDD_Method {
 			// we only care about "link" headers
 			if (strcasecmp($name, 'link') != 0) continue;
 
-			if ( $link = LRDD_Link::from_header($value) ) {
+			$link = LRDD_Link::from_header($value);
+			if ( $link && in_array('describedby', $link->rel) ) {
 				$links[] = $link;
 			}
 		}

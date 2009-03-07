@@ -53,9 +53,10 @@ class LRDDTest extends Discovery_TestCase {
 
 		$this->assertEquals(2, sizeof($links));
 
-		$this->assertEquals('http://openxrd.org/sitemap.xml', $links[0]->uri);
+		$this->assertEquals('http://openxrd.org/powder.xml', $links[0]->uri);
+		$this->assertEquals('application/powder+xml', $links[0]->type);
 		$this->assertEquals(1, sizeof($links[0]->rel));
-		$this->assertEquals('index', $links[0]->rel[0]);
+		$this->assertEquals('describedby', $links[0]->rel[0]);
 
 		$this->assertEquals('http://openxrd.org/xrd.xml', $links[1]->uri);
 		$this->assertEquals('application/xrd+xml', $links[1]->type);
@@ -113,13 +114,15 @@ class LRDDTest extends Discovery_TestCase {
 
 		$links = $disco->discover($url);
 		$this->assertEquals(2, sizeof($links));
-		$this->assertEquals('application/rss+xml', $links[1]->type);
+		$this->assertEquals('http://openxrd.org/xrd', $links[0]->uri);
+		$this->assertEquals('http://openxrd.org/powder', $links[1]->uri);
 
 		// test 3 - all discovery methods
 		$disco = new LRDD();
 		$links = $disco->discover($url);
 		$this->assertEquals(2, sizeof($links));
-		$this->assertEquals('application/powder+xml', $links[1]->type);
+		$this->assertEquals('http://openxrd.org/xrd.xml', $links[0]->uri);
+		$this->assertEquals('http://openxrd.org/powder.xml', $links[1]->uri);
 	}
 }
 

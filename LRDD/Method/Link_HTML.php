@@ -11,15 +11,7 @@ class LRDD_Method_Link_HTML implements LRDD_Method {
 
 
 	public static function discover($uri) {
-
-		$ch = curl_init($uri);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_USERAGENT, 'discovery/1.0 (php)');
-
-		$content = curl_exec($ch);
-		curl_close($ch);
-
+		$content = LRDD::fetch($uri);
 		return self::parse($content);
 	}
 
