@@ -52,6 +52,12 @@ class LRDD {
 	 */
 	public function discover($uri) {
 
+		// allow this method to be called statically
+		if (!isset($this)) {
+			$lrdd = new self();
+			return $lrdd->discover($uri);
+		}
+
 		foreach($this->discovery_methods as $class) {
 			$links = call_user_func(array($class, 'discover'), $uri);
 			if ($links) break;

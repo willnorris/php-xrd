@@ -219,8 +219,7 @@ class XRD {
 	public static function discover($uri) {
 		require_once 'LRDD.php';
 
-		$disco = new LRDD();
-		$links = $disco->discover($uri);
+		$links = LRDD::discover($uri);
 
 		foreach ($links as $link) {
 			if (in_array('describedby', $link->rel) && $link->type == self::CONTENT_TYPE) {
