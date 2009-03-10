@@ -5,22 +5,6 @@ require_once 'XRD/TemplateURI.php';
  
 class TemplateURITest extends Discovery_TestCase {
 
-	public function testComponentParsing() {
-		$resource = 'foo://william@example.com:8080/over/there?name=ferret#nose';
-		$components = XRD_TemplateURI::getComponents($resource);
-
-		$this->assertEquals(9, sizeof($components));
-		$this->assertEquals('foo', $components['scheme']);
-		$this->assertEquals('william@example.com:8080', $components['authority']);
-		$this->assertEquals('/over/there', $components['path']);
-		$this->assertEquals('name=ferret', $components['query']);
-		$this->assertEquals('nose', $components['fragment']);
-		$this->assertEquals('william', $components['userinfo']);
-		$this->assertEquals('example.com', $components['host']);
-		$this->assertEquals('8080', $components['port']);
-		$this->assertEquals('foo://william@example.com:8080/over/there?name=ferret', $components['uri']);
-	}
-
 	public function testTemplate() {
 		$resource = 'http://example.com/r/1?f=xml#top';
 
