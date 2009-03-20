@@ -28,9 +28,9 @@ class Discovery_LRDD {
 	public function __construct() {
 		$this->discovery_methods = array();
 
-		$this->register_discovery_method('Discovery_LRDD_Method_Host_Meta');
-		$this->register_discovery_method('Discovery_LRDD_Method_Link_Header');
 		$this->register_discovery_method('Discovery_LRDD_Method_Link_HTML');
+		$this->register_discovery_method('Discovery_LRDD_Method_Link_Header');
+		$this->register_discovery_method('Discovery_LRDD_Method_Host_Meta');
 	}
 
 

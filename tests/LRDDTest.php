@@ -98,19 +98,20 @@ class LRDDTest extends Discovery_TestCase {
 	public function testFetch() {
 		$url = 'http://openxrd.org/';
 
-		// test 1 - HTML only
+		// test 1 - Host Meta only
 		$disco = new Discovery_LRDD();
 		$disco->discovery_methods = array();
-		$disco->register_discovery_method('Discovery_LRDD_Method_Link_HTML');
+		$disco->register_discovery_method('Discovery_LRDD_Method_Host_Meta');
 
 		$links = $disco->discover($url);
 		$this->assertEquals(2, sizeof($links));
-		$this->assertEquals('text/css', $links[1]->type);
+		$this->assertEquals('http://openxrd.org/xrd.xml', $links[0]->uri);
+		$this->assertEquals('http://openxrd.org/powder.xml', $links[1]->uri);
 
-		// test 2 - HTML + HTTP Header
+		// test 2 - HTTP Header + Host Meta
 		$disco->discovery_methods = array();
 		$disco->register_discovery_method('Discovery_LRDD_Method_Link_Header');
-		$disco->register_discovery_method('Discovery_LRDD_Method_Link_HTML');
+		$disco->register_discovery_method('Discovery_LRDD_Method_Host_Meta');
 
 		$links = $disco->discover($url);
 		$this->assertEquals(2, sizeof($links));
@@ -122,7 +123,8 @@ class LRDDTest extends Discovery_TestCase {
 		$links = $disco->discover($url);
 		$this->assertEquals(2, sizeof($links));
 		$this->assertEquals('http://openxrd.org/xrd.xml', $links[0]->uri);
-		$this->assertEquals('http://openxrd.org/powder.xml', $links[1]->uri);
+		$this->assertEquals('http://openxrd.org/style.css', $links[1]->uri);
+		$this->assertEquals('text/css', $links[1]->type);
 	}
 }
 
