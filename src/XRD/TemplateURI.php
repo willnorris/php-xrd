@@ -14,8 +14,8 @@ class XRD_TemplateURI extends XRD_URI {
 
 
 	public function applyTemplate($resource) {
-		require_once 'LRDD/LinkPattern.php';
-		return LRDD_LinkPattern::applyPattern($resource, $this->uri);
+		require_once 'Discovery/LRDD/LinkPattern.php';
+		return Discovery_LRDD_LinkPattern::applyPattern($resource, $this->uri);
 	}
 
 	/**
