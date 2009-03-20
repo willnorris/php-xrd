@@ -1,8 +1,8 @@
 <?php
 
-require_once 'LRDD.php';
-require_once 'LRDD/Link.php';
-require_once 'LRDD/Method.php';
+require_once 'Discovery/LRDD.php';
+require_once 'Discovery/LRDD/Link.php';
+require_once 'Discovery/LRDD/Method.php';
 
 
 /**
@@ -10,7 +10,7 @@ require_once 'LRDD/Method.php';
  *
  * @see http://www.ietf.org/internet-drafts/draft-nottingham-site-meta-01.txt
  */
-class LRDD_Method_Host_Meta implements LRDD_Method {
+class Discovery_LRDD_Method_Host_Meta implements Discovery_LRDD_Method {
 
 
 	public static function discover($uri) {
@@ -21,7 +21,7 @@ class LRDD_Method_Host_Meta implements LRDD_Method {
 		if (array_key_exists('port', $parts)) $meta_url .= ':' . $parts['port'];
 		$meta_url .= '/host-meta';
 
-		$response = LRDD::fetch($meta_url);
+		$response = Discovery_LRDD::fetch($meta_url);
 		if ($response === false) return $response;
 
 		return self::parse($response);
@@ -32,7 +32,7 @@ class LRDD_Method_Host_Meta implements LRDD_Method {
 	 * Parse the given Host Metadata.
 	 *
 	 * @param string $content contents of a host-meta document
-	 * @return array array of LRDD_Link objects
+	 * @return array array of Discovery_LRDD_Link objects
 	 */
 	public static function parse($content) {
 		$links = array();
@@ -50,7 +50,7 @@ class LRDD_Method_Host_Meta implements LRDD_Method {
 			// TODO do something with the other host-meta entries
 			if (strcasecmp($name, 'link') != 0) continue;
 
-			if ($link = LRDD_Link::from_header($value)) {
+			if ($link = Discovery_LRDD_Link::from_header($value)) {
 				$links[] = $link;
 			}
 		}

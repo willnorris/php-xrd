@@ -1,16 +1,16 @@
 <?php
 
 require_once dirname(__FILE__) . '/TestCase.php';
-require_once 'LRDD/Method/Host_Meta.php';
-require_once 'LRDD/Method/Link_Header.php';
-require_once 'LRDD/Method/Link_HTML.php';
+require_once 'Discovery/LRDD/Method/Host_Meta.php';
+require_once 'Discovery/LRDD/Method/Link_Header.php';
+require_once 'Discovery/LRDD/Method/Link_HTML.php';
  
 class LRDDTest extends Discovery_TestCase {
 
 	public function testHostMeta() {
 		// test 1
 		$content = file_get_contents($this->data_dir . 'host-meta-1');
-		$links = LRDD_Method_Host_Meta::parse($content);
+		$links = Discovery_LRDD_Method_Host_Meta::parse($content);
 
 		$this->assertEquals(1, sizeof($links));
 		$this->assertEquals('http://openxrd.org/xrd.xml', $links[0]->uri);
@@ -20,7 +20,7 @@ class LRDDTest extends Discovery_TestCase {
 
 		// test 2
 		$content = file_get_contents($this->data_dir . 'host-meta-2');
-		$links = LRDD_Method_Host_Meta::parse($content);
+		$links = Discovery_LRDD_Method_Host_Meta::parse($content);
 
 		$this->assertEquals(2, sizeof($links));
 
@@ -39,7 +39,7 @@ class LRDDTest extends Discovery_TestCase {
 	public function testLinkHeader() {
 		// test 1
 		$content = file_get_contents($this->data_dir . 'http-headers-1.txt');
-		$links = LRDD_Method_Link_Header::parse($content);
+		$links = Discovery_LRDD_Method_Link_Header::parse($content);
 
 		$this->assertEquals(1, sizeof($links));
 		$this->assertEquals('http://openxrd.org/xrd.xml', $links[0]->uri);
@@ -49,7 +49,7 @@ class LRDDTest extends Discovery_TestCase {
 
 		// test 2
 		$content = file_get_contents($this->data_dir . 'http-headers-2.txt');
-		$links = LRDD_Method_Link_Header::parse($content);
+		$links = Discovery_LRDD_Method_Link_Header::parse($content);
 
 		$this->assertEquals(2, sizeof($links));
 
@@ -69,7 +69,7 @@ class LRDDTest extends Discovery_TestCase {
 	public function testLinkHTML() {
 		// test 1
 		$content = file_get_contents($this->data_dir . 'link-1.html');
-		$links = LRDD_Method_Link_HTML::parse($content);
+		$links = Discovery_LRDD_Method_Link_HTML::parse($content);
 
 		$this->assertEquals(1, sizeof($links));
 		$this->assertEquals('http://openxrd.org/xrd.xml', $links[0]->uri);
@@ -79,7 +79,7 @@ class LRDDTest extends Discovery_TestCase {
 
 		// test 2
 		$content = file_get_contents($this->data_dir . 'link-2.html');
-		$links = LRDD_Method_Link_HTML::parse($content);
+		$links = Discovery_LRDD_Method_Link_HTML::parse($content);
 
 		$this->assertEquals(2, sizeof($links));
 
@@ -99,9 +99,9 @@ class LRDDTest extends Discovery_TestCase {
 		$url = 'http://openxrd.org/';
 
 		// test 1 - HTML only
-		$disco = new LRDD();
+		$disco = new Discovery_LRDD();
 		$disco->discovery_methods = array();
-		$disco->register_discovery_method('LRDD_Method_Link_HTML');
+		$disco->register_discovery_method('Discovery_LRDD_Method_Link_HTML');
 
 		$links = $disco->discover($url);
 		$this->assertEquals(2, sizeof($links));
@@ -109,8 +109,8 @@ class LRDDTest extends Discovery_TestCase {
 
 		// test 2 - HTML + HTTP Header
 		$disco->discovery_methods = array();
-		$disco->register_discovery_method('LRDD_Method_Link_Header');
-		$disco->register_discovery_method('LRDD_Method_Link_HTML');
+		$disco->register_discovery_method('Discovery_LRDD_Method_Link_Header');
+		$disco->register_discovery_method('Discovery_LRDD_Method_Link_HTML');
 
 		$links = $disco->discover($url);
 		$this->assertEquals(2, sizeof($links));
@@ -118,7 +118,7 @@ class LRDDTest extends Discovery_TestCase {
 		$this->assertEquals('http://openxrd.org/powder', $links[1]->uri);
 
 		// test 3 - all discovery methods
-		$disco = new LRDD();
+		$disco = new Discovery_LRDD();
 		$links = $disco->discover($url);
 		$this->assertEquals(2, sizeof($links));
 		$this->assertEquals('http://openxrd.org/xrd.xml', $links[0]->uri);

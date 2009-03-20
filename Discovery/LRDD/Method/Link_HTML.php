@@ -1,17 +1,17 @@
 <?php
 
-require_once 'LRDD.php';
-require_once 'LRDD/Link.php';
-require_once 'LRDD/Method.php';
+require_once 'Discovery/LRDD.php';
+require_once 'Discovery/LRDD/Link.php';
+require_once 'Discovery/LRDD/Method.php';
 
 /**
  * LRDD Method that uses HTML <link> element
  */
-class LRDD_Method_Link_HTML implements LRDD_Method {
+class Discovery_LRDD_Method_Link_HTML implements Discovery_LRDD_Method {
 
 
 	public static function discover($uri) {
-		$content = LRDD::fetch($uri);
+		$content = Discovery_LRDD::fetch($uri);
 		return self::parse($content);
 	}
 
@@ -20,7 +20,7 @@ class LRDD_Method_Link_HTML implements LRDD_Method {
 	 * Parse the given HTML.
 	 *
 	 * @param string $content HTML content
-	 * @return array array of LRDD_Link objects
+	 * @return array array of Discovery_LRDD_Link objects
 	 */
 	public static function parse($html) {
 		$links = array();
@@ -56,7 +56,7 @@ class LRDD_Method_Link_HTML implements LRDD_Method {
 				$link_type = $type_matches[1];
 			}
 
-			$links[] = new LRDD_Link($link_uri, $link_rel, $link_type);
+			$links[] = new Discovery_LRDD_Link($link_uri, $link_rel, $link_type);
 		}
 
 		return $links;

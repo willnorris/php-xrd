@@ -1,8 +1,8 @@
 <?php
 
-require_once 'LRDD/Link.php';
+require_once 'Discovery/LRDD/Link.php';
 
-class LRDD_LinkPattern extends LRDD_Link {
+class Discovery_LRDD_LinkPattern extends Discovery_LRDD_Link {
 
 	public function __construct($uri = null, $rel = null, $type = null) {
 		$this->uri = $uri;

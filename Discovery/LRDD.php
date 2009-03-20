@@ -1,9 +1,9 @@
 <?php
 
-require_once 'LRDD/Link.php';
-require_once 'LRDD/Method/Host_Meta.php';
-require_once 'LRDD/Method/Link_Header.php';
-require_once 'LRDD/Method/Link_HTML.php';
+require_once 'Discovery/LRDD/Link.php';
+require_once 'Discovery/LRDD/Method/Host_Meta.php';
+require_once 'Discovery/LRDD/Method/Link_Header.php';
+require_once 'Discovery/LRDD/Method/Link_HTML.php';
 
 /**
  * This library helps to discover descriptor documents for resources identified with URIs.  By 
@@ -14,10 +14,10 @@ require_once 'LRDD/Method/Link_HTML.php';
  *
  * @see http://www.ietf.org/internet-drafts/draft-hammer-discovery-02.txt
  */
-class LRDD {
+class Discovery_LRDD {
 
 	/**
-	 * LRDD_Method implementations to use for discovery.
+	 * Discovery_LRDD_Method implementations to use for discovery.
 	 */
 	public $discovery_methods;
 
@@ -28,16 +28,16 @@ class LRDD {
 	public function __construct() {
 		$this->discovery_methods = array();
 
-		$this->register_discovery_method('LRDD_Method_Host_Meta');
-		$this->register_discovery_method('LRDD_Method_Link_Header');
-		$this->register_discovery_method('LRDD_Method_Link_HTML');
+		$this->register_discovery_method('Discovery_LRDD_Method_Host_Meta');
+		$this->register_discovery_method('Discovery_LRDD_Method_Link_Header');
+		$this->register_discovery_method('Discovery_LRDD_Method_Link_HTML');
 	}
 
 
 	/**
 	 * Register a discovery method to be used.
 	 *
-	 * @param string class name of LRDD_Method implementation
+	 * @param string class name of Discovery_LRDD_Method implementation
 	 */
 	public function register_discovery_method($class) {
 		$this->discovery_methods[] = $class;
@@ -48,7 +48,7 @@ class LRDD {
 	 * Discover available descriptor documents for the specified identifier.
 	 *
 	 * @param string $uri URI to perform discovery on
-	 * @return array array of LRDD_Link objects
+	 * @return array array of Discovery_LRDD_Link objects
 	 */
 	public function discover($uri) {
 

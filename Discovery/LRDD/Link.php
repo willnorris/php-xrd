@@ -1,6 +1,6 @@
 <?php
 
-class LRDD_Link {
+class Discovery_LRDD_Link {
 
 	public $uri;
 
