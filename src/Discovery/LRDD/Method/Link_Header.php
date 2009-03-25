@@ -32,37 +32,17 @@ class Discovery_LRDD_Method_Link_Header implements Discovery_LRDD_Method {
 	 * TODO this method does not currently handle the case where multiple 
 	 * header values are included on a single line.
 	 *
-	 * @param string $content HTTP response headers
+	 * @param string|array $headers HTTP Link header value or array of values
 	 * @return array array of Discovery_LRDD_Link objects
 	 */
-	public static function parse($content) {
+	public static function parse($headers) {
+		$headers = (array) $headers;
 		$links = array();
-
-		$headers = explode("\r\n", $content);
-
-		// remove HTTP response code
-		array_shift($headers);
-
-		// normalize headers that are split over multiple lines
-		for ($i=(sizeof($headers)-1); $i>=0; $i--) {
-			$char = substr($headers[$i], 0, 1);
-			if ( $char == ' ' || $char == "\t" ) {
-				$headers[$i-1] .= preg_replace('/^\s+/', '', $headers[$i]);
-				unset($headers[$i]);
-			}
-		}
 
 		foreach ($headers as $header) {
 			if (empty($header)) continue;
 
-			list ($name, $value) = explode(':', $header, 2);
-			$name = trim($name);
-			$value = trim($value);
-
-			// we only care about "link" headers
-			if (strcasecmp($name, 'link') != 0) continue;
-
-			$link = Discovery_LRDD_Link::from_header($value);
+			$link = Discovery_LRDD_Link::from_header($header);
 			if ( $link && in_array('describedby', $link->rel) ) {
 				$links[] = $link;
 			}
