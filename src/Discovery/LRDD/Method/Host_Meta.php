@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Discovery/LRDD.php';
+require_once 'Discovery/Context.php';
 require_once 'Discovery/LRDD/Link.php';
 require_once 'Discovery/LRDD/Method.php';
 
@@ -13,7 +13,20 @@ require_once 'Discovery/LRDD/Method.php';
 class Discovery_LRDD_Method_Host_Meta implements Discovery_LRDD_Method {
 
 
-	public static function discover($uri) {
+	public static function discover(Discovery_Context $context) {
+		$meta_url = self::hostmeta_url($context->uri);
+
+		$request = null; // create request object 
+
+		$response = $context->fetch($request);
+		$status_digit = floor( $response->getStatus() / 100 );
+
+		if ($status_digit == 2 || $status_digit == 3) {
+			return self::parse( $response->getBody() );
+		}
+	}
+
+	public static function hostmeta_url($uri) {
 		$parts = parse_url($uri);
 
 		// build host-meta URL
@@ -21,12 +34,8 @@ class Discovery_LRDD_Method_Host_Meta implements Discovery_LRDD_Method {
 		if (array_key_exists('port', $parts)) $meta_url .= ':' . $parts['port'];
 		$meta_url .= '/host-meta';
 
-		$response = Discovery_LRDD::fetch($meta_url);
-		if ($response === false) return $response;
-
-		return self::parse($response);
+		return $meta_url;
 	}
-
 
 	/**
 	 * Parse the given Host Metadata.
