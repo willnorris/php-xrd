@@ -6,7 +6,7 @@ require_once 'Discovery/LRDD/Method/Host_Meta.php';
 require_once 'Discovery/LRDD/Method/Link_Header.php';
 require_once 'Discovery/LRDD/Method/Link_HTML.php';
  
-class LRDDTest extends Discovery_TestCase {
+class LRDDParseTest extends Discovery_TestCase {
 
 
 	public function testLinkHTML() {
