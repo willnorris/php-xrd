@@ -48,9 +48,11 @@ class Discovery_LRDD_Method_Host_Meta implements Discovery_LRDD_Method {
 
 			// we only care about "link" host-meta entries
 			// TODO do something with the other host-meta entries
+			// TODO we actaully should only be working with link-patterns in host-meta
 			if (strcasecmp($name, 'link') != 0) continue;
 
-			if ($link = Discovery_LRDD_Link::from_header($value)) {
+			$link = Discovery_LRDD_Link::from_header($value);
+			if ( $link && in_array('describedby', $link->rel) ) {
 				$links[] = $link;
 			}
 		}
