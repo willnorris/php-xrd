@@ -40,18 +40,19 @@ class Discovery_LRDD_Method_Link_HTML implements Discovery_LRDD_Method {
 			$link_rel = null;
 			$link_type = null;
 
-			preg_match('/\shref=(("|\')([^\\2]*?)\\2|[^"\'\s]+)/i', $link_html, $href_matches);
-			if ( isset($href_matches[3]) ) {
-				$link_uri = $href_matches[3];
-			} else if ( isset($href_matches[1]) ) {
-				$link_uri = $href_matches[1];
-			}
-
 			preg_match('/\srel=(("|\')([^\\2]*?)\\2|[^"\'\s]+)/i', $link_html, $rel_matches);
 			if ( isset($rel_matches[3]) ) {
 				$link_rel = explode(' ', $rel_matches[3]);
 			} else if ( isset($rel_matches[1]) ) {
 				$link_rel = explode(' ', $rel_matches[1]);
+			}
+			if ( !in_array('describedby', $link_rel) ) continue;
+
+			preg_match('/\shref=(("|\')([^\\2]*?)\\2|[^"\'\s]+)/i', $link_html, $href_matches);
+			if ( isset($href_matches[3]) ) {
+				$link_uri = $href_matches[3];
+			} else if ( isset($href_matches[1]) ) {
+				$link_uri = $href_matches[1];
 			}
 
 			preg_match('/\stype=(("|\')([^\\2]*?)\\2|[^"\'\s]+)/i', $link_html, $type_matches);
