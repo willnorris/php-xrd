@@ -9,7 +9,12 @@ class HTTPTest extends Discovery_TestCase {
 
 		$http = new WP_Http();
 
-		$response = $http->get('http://openxrd.org/');
+		$options = array(
+			'uri' => 'http://openxrd.org/',
+			'method' => 'GET',
+		);
+
+		$response = $http->get($options['uri'], $options);
 
 		print_r($response);
 	}
