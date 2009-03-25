@@ -1,5 +1,7 @@
 <?php
 
+require_once 'HTTP/HTTP.php';
+
 /**
  * The Discovery Context contains all of the information about the resolution of a specific URI.
  */
@@ -11,6 +13,13 @@ class Discovery_Context {
 	 * @var string
 	 */
 	public $uri;
+
+
+	/**
+	 * HTTP Client used for making requests
+	 *
+	 * @var WP_Http object
+	public $http;
 
 
 	/** 
@@ -30,13 +39,31 @@ class Discovery_Context {
 	public function __construct($uri) {
 		$this->uri = $uri;
 		$this->responses = array();
+		$this->http = new WP_Http();
 	}
 
 	public function fetch($request) {
+		$defaults = array(
+			'method' => 'GET',
+			'timeout' => 5,
+			'redirection' => 5,
+			'httpversion' => '1.0',
+			'user-agent' => 'WP_Http',
+			'blocking' => true,
+			'headers' => array(),
+			'cookies' => array(),
+			'body' => null,
+			'compress' => false,
+			'decompress' => true,
+			'sslverify' => true
+		);
+
+		$request = array_merge($defaults, $request);
+
 		$signature = md5(serialize($request));
 
 		if ( !array_key_exists($signature, $this->responses) ) {
-			$responses[$signature] = $request->send();
+			$responses[$signature] = $this->http->request($request['uri'], $request);
 		}
 
 		return $responses[$signature];
