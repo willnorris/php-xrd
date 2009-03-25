@@ -5,7 +5,7 @@
  */
 interface Discovery_LRDD_Method 
 {
-	public static function discover($uri);
+	public static function discover(Discovery_Context $context);
 }
 
 ?>

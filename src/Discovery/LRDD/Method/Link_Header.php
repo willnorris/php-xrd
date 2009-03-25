@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Discovery/LRDD.php';
+require_once 'Discovery/Context.php';
 require_once 'Discovery/LRDD/Link.php';
 require_once 'Discovery/LRDD/Method.php';
 
@@ -13,19 +13,16 @@ require_once 'Discovery/LRDD/Method.php';
 class Discovery_LRDD_Method_Link_Header implements Discovery_LRDD_Method {
 
 
-	public static function discover($uri) {
+	public static function discover(Discovery_Context $context) {
 
-		$ch = curl_init($uri);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HEADER, true);
-		curl_setopt($ch, CURLOPT_NOBODY, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_USERAGENT, 'discovery/1.0 (php)');
+		$request = null; // create request object
 
-		$content = curl_exec($ch);
-		curl_close($ch);
+		$response = $context->fetch($request);
+		$status_digit = floor( $response->getStatus() / 100 );
 
-		return self::parse($content);
+		if ($status_digit == 2 || $status_digit == 3) {
+			return self::parse( $response->getHeader('link') );
+		}
 	}
 
 
