@@ -3,6 +3,7 @@
 require_once 'Discovery/HTTP/Adaptor.php';
 require_once 'Zend/Http/Client.php';
 require_once 'Zend/Http/Response.php';
+require_once 'Zend/Http/CookieJar.php';
 
 class Discovery_HTTP_Zend implements Discovery_HTTP_Adaptor {
 
@@ -15,14 +16,12 @@ class Discovery_HTTP_Zend implements Discovery_HTTP_Adaptor {
 			'useragent' => $request['user-agent'],
 			'timeout' => $request['timeout'],
 			'httpversion' => $request['httpversion'],
-			'keepalive' => false,
-			'storeresponse' => true,
 		);
 		$zend->setConfig( $zend_config );
 
 		// setup request
 		$zend->setUri( $request['uri'] );
-		$zend->setMethod( strtoupper($request['method']) );
+		$zend->setMethod( $request['method'] );
 		$zend->setHeaders( $request['headers'] );
 		$zend->setRawData( $request['body'] );
 		if (!empty($request['cookies'])) {
@@ -40,6 +39,7 @@ class Discovery_HTTP_Zend implements Discovery_HTTP_Adaptor {
 				'message' => $zend_response->getMessage(),
 			),
 			'headers' => $zend_response->getHeaders(),
+			'cookies' => array(),
 			'body' => $zend_response->getBody(),
 		);
 
@@ -47,6 +47,10 @@ class Discovery_HTTP_Zend implements Discovery_HTTP_Adaptor {
 		$header_keys = array_map('strtolower', array_keys($response['headers']));
 		$header_values = array_values($response['headers']);
 		$response['headers'] = array_combine($header_keys, $header_values);
+
+		// add cookies
+		$cookieJar = Zend_Http_CookieJar::fromResponse($zend_response, $zend->getUri());
+		$response['cookies'] = $cookieJar->getAllCookies();
 
 		return $response;
 	}
