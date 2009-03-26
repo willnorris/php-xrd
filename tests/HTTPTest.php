@@ -1,7 +1,6 @@
 <?php
 
 require_once dirname(__FILE__) . '/TestCase.php';
-require_once 'HTTP/HTTP.php';
  
 class HTTPTest extends Discovery_TestCase {
 
@@ -10,7 +9,7 @@ class HTTPTest extends Discovery_TestCase {
 		$http = new WP_Http();
 
 		$options = array(
-			'uri' => 'http://openxrd.org/',
+			'uri' => 'http://www.google.com/',
 			'method' => 'GET',
 		);
 
