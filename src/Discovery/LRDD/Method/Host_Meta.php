@@ -16,13 +16,13 @@ class Discovery_LRDD_Method_Host_Meta implements Discovery_LRDD_Method {
 	public static function discover(Discovery_Context $context) {
 		$meta_url = self::hostmeta_url($context->uri);
 
-		$request = null; // create request object 
+		$request = array( 'uri' => $meta_url);
 
 		$response = $context->fetch($request);
-		$status_digit = floor( $response->getStatus() / 100 );
+		$status_digit = floor( $response['response']['code'] / 100 );
 
 		if ($status_digit == 2 || $status_digit == 3) {
-			return self::parse( $response->getBody() );
+			return self::parse( $response['body'] );
 		}
 	}
 
