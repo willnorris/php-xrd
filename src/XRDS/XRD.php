@@ -6,6 +6,8 @@ require_once('XRDS/Service.php');
 
 /**
  * XRDS Descriptor.
+ *
+ * @package XRDS
  */
 class XRDS_XRD {
 

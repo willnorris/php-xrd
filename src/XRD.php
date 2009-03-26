@@ -5,6 +5,8 @@ require_once('XRD/Link.php');
 
 /**
  * XRD Descriptor.
+ *
+ * @package XRD
  */
 class XRD {
 

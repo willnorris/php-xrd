@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Discovery Utilities
+ *
+ * @package Discovery
+ */
 class Discovery_Util {
 	/**
 	 * Split a combined HTTP header into its separate values.  Multiple values 

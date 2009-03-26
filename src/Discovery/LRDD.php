@@ -14,6 +14,7 @@ require_once 'Discovery/LRDD/Method/Link_HTML.php';
  *   - Link HTML element
  *
  * @see http://www.ietf.org/internet-drafts/draft-hammer-discovery-02.txt
+ * @package Discovery
  */
 class Discovery_LRDD {
 

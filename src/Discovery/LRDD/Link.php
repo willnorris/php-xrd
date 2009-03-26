@@ -2,6 +2,11 @@
 
 require_once 'Discovery/Util.php';
 
+/**
+ * LRDD Link
+ *
+ * @package Discovery
+ */
 class Discovery_LRDD_Link {
 
 	public $uri;

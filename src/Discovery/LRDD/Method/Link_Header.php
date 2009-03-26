@@ -10,6 +10,7 @@ require_once 'Discovery/LRDD/Method.php';
  * LRDD Method that uses "Link" HTTP Response header
  *
  * @see http://www.ietf.org/internet-drafts/draft-nottingham-http-link-header-04.txt
+ * @package Discovery
  */
 class Discovery_LRDD_Method_Link_Header implements Discovery_LRDD_Method {
 

@@ -1,6 +1,11 @@
 <?php
 
 
+/**
+ * Yadis Discovery
+ *
+ * @package Discovery
+ */
 class Discovery_Yadis {
 
 	/**

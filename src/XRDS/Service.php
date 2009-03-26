@@ -2,6 +2,8 @@
 
 /**
  * XRDS Service.
+ *
+ * @package XRDS
  */
 class XRDS_Service {
 

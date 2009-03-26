@@ -5,6 +5,7 @@ require_once('XRDS/XRD.php');
 /**
  * XRDS-Simple Document.
  *
+ * @package XRDS
  * @see http://xrds-simple.net/core/1.0/
  */
 class XRDS {

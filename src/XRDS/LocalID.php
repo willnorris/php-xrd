@@ -2,6 +2,8 @@
 
 /**
  * XRDS URI.
+ *
+ * @package XRDS
  */
 class XRDS_LocalID {
 

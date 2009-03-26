@@ -5,6 +5,8 @@ require_once 'XRDS.php';
 
 /**
  * A XRDS Discovery Methods implements one way of discovering the metadata for a URI
+ *
+ * @package Discovery
  */
 interface Discovery_Yadis_Method {
 	public static function discover(Discovery_Context $context);
@@ -13,6 +15,8 @@ interface Discovery_Yadis_Method {
 
 /**
  * XRDS Discovery Method that uses HTTP content negotiation.
+ *
+ * @package Discovery
  */
 class Discovery_Yadis_Content_Negotiation implements Discovery_Yadis_Method {
 
@@ -39,6 +43,8 @@ class Discovery_Yadis_Content_Negotiation implements Discovery_Yadis_Method {
 
 /**
  * XRDS Discovery Method that looks for an HTTP response header advertising the location of the XRDS document.
+ *
+ * @package Discovery
  */
 class Discovery_Yadis_Location_Header implements Discovery_Yadis_Method {
 
@@ -61,6 +67,8 @@ class Discovery_Yadis_Location_Header implements Discovery_Yadis_Method {
 
 /**
  * XRDS Discovery Method that looks for an HTML Meta element advertising the location of the XRDS document.
+ *
+ * @package Discovery
  */
 class Discovery_Yadis_HTML_Meta implements Discovery_Yadis_Method {
 
