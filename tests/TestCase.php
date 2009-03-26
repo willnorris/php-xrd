@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 
 require_once 'PHPUnit/Framework.php';
+@include_once dirname(__FILE__) . '/config.php';
 
 /**
  * A simple utils class for methods needed
