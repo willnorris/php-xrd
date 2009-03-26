@@ -58,7 +58,7 @@ class Discovery_LRDD {
 	 * Discover available descriptor documents for the specified identifier.
 	 *
 	 * @param string|Discovery_Context $uri discovery context used for discovery,
-	 *     or URI use to create a new discovery context
+	 *     or URI used to create a new discovery context
 	 * @return array array of Discovery_LRDD_Link objects
 	 */
 	public function discover($uri) {
@@ -69,7 +69,11 @@ class Discovery_LRDD {
 			return $lrdd->discover($uri);
 		}
 
-		$context = new Discovery_Context($uri, $this->http);
+		if ( is_object($uri) ) {
+			$context = $uri;
+		} else {
+			$context = new Discovery_Context($uri, $this->http);
+		}
 
 		foreach ($this->discovery_methods as $class) {
 			$links = call_user_func(array($class, 'discover'), $context);

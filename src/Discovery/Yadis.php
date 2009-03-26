@@ -54,7 +54,7 @@ class Discovery_Yadis {
 	 * Discover a XRDS document for the specified identifier.
 	 *
 	 * @param string|Discovery_Context $uri discovery context used for discovery,
-	 *     or URI use to create a new discovery context
+	 *     or URI used to create a new discovery context
 	 * @return XRDS object
 	 */
 	public function discover($uri) {
@@ -65,7 +65,11 @@ class Discovery_Yadis {
 			return $yadis->discover($uri);
 		}
 
-		$context = new Discovery_Context($uri, $this->http);
+		if ( is_object($uri) ) {
+			$context = $uri;
+		} else {
+			$context = new Discovery_Context($uri, $this->http);
+		}
 
 		foreach($this->discovery_methods as $class) {
 			$xrds = call_user_func(array($class, 'discover'), $context);
