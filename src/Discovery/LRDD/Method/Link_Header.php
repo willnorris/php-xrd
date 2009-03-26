@@ -1,5 +1,6 @@
 <?php
 
+require_once 'Discovery/Util.php';
 require_once 'Discovery/Context.php';
 require_once 'Discovery/LRDD/Link.php';
 require_once 'Discovery/LRDD/Method.php';
@@ -29,9 +30,6 @@ class Discovery_LRDD_Method_Link_Header implements Discovery_LRDD_Method {
 	/**
 	 * Parse the given HTTP response headers.
 	 *
-	 * TODO this method does not currently handle the case where multiple 
-	 * header values are included on a single line.
-	 *
 	 * @param string|array $headers HTTP Link header value or array of values
 	 * @return array array of Discovery_LRDD_Link objects
 	 */
@@ -41,6 +39,15 @@ class Discovery_LRDD_Method_Link_Header implements Discovery_LRDD_Method {
 
 		foreach ($headers as $header) {
 			if (empty($header)) continue;
+
+			// we may have multiple comma-separated header values combined on a single line
+			if (strpos($header, ',') !== false) {
+				$split_headers = Discovery_Util::split($header, ',');
+				if (sizeof($split_headers) > 1) {
+					$links = array_merge($links, self::parse($split_headers));
+					continue;
+				}
+			}
 
 			$link = Discovery_LRDD_Link::from_header($header);
 			if ( $link && in_array('describedby', $link->rel) ) {
