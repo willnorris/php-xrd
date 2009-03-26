@@ -26,15 +26,15 @@ class Discovery_LRDD {
 
 	/**
 	 *
-	 * @var Discovery_HTTP_Adaptor
+	 * @var Discovery_HTTP_Adapter
 	 */
 	public $http;
 
 	/**
 	 * Constructor.
 	 */
-	public function __construct(Discovery_HTTP_Adaptor $http = null) {
-		if ( $http == null ) $http = Discovery_Util::httpAdaptor();
+	public function __construct(Discovery_HTTP_Adapter $http = null) {
+		if ( $http == null ) $http = Discovery_Util::httpAdapter();
 		$this->http = $http;
 
 		$this->discovery_methods = array();

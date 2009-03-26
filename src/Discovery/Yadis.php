@@ -2,7 +2,7 @@
 
 require_once 'Discovery/Context.php';
 require_once 'Discovery/Util.php';
-require_once 'Discovery/HTTP/Adaptor.php';
+require_once 'Discovery/HTTP/Adapter.php';
 require_once 'Discovery/Yadis/Methods.php';
 require_once 'XRDS.php';
 
@@ -21,7 +21,7 @@ class Discovery_Yadis {
 
 	/**
 	 *
-	 * @var Discovery_HTTP_Adaptor
+	 * @var Discovery_HTTP_Adapter
 	 */
 	public $http;
 
@@ -29,8 +29,8 @@ class Discovery_Yadis {
 	/**
 	 * Constructor.
 	 */
-	public function __construct(Discovery_HTTP_Adaptor $http = null) {
-		if ( $http == null ) $http = Discovery_Util::httpAdaptor();
+	public function __construct(Discovery_HTTP_Adapter $http = null) {
+		if ( $http == null ) $http = Discovery_Util::httpAdapter();
 		$this->http = $http;
 
 		$this->discovery_methods = array();

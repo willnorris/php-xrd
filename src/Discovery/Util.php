@@ -54,11 +54,11 @@ class Discovery_Util {
 
 
 	/**
-	 * Get appropriate HTTP adaptor based on what libraries are available.
+	 * Get appropriate HTTP adapter based on what libraries are available.
 	 *
-	 * @return Discovery_HTTP_Adaptor
+	 * @return Discovery_HTTP_Adapter
 	 */
-	public function httpAdaptor() {
+	public function httpAdapter() {
 		static $http;
 
 		if ( isset($http) ) return $http;

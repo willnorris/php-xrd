@@ -1,10 +1,10 @@
 <?php
 
-require_once 'Discovery/HTTP/Adaptor.php';
+require_once 'Discovery/HTTP/Adapter.php';
 require_once 'HTTP/Request2.php';
 require_once 'HTTP/Request2/Response.php';
 
-class Discovery_HTTP_Pear implements Discovery_HTTP_Adaptor {
+class Discovery_HTTP_Pear implements Discovery_HTTP_Adapter {
 
 	public function fetch($request) {
 		$pear = new HTTP_Request2();

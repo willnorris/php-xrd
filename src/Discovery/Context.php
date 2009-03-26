@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Discovery/HTTP/Adaptor.php';
+require_once 'Discovery/HTTP/Adapter.php';
 
 /**
  * The Discovery Context contains all of the information about the resolution of a specific URI.
@@ -20,7 +20,7 @@ class Discovery_Context {
 	/**
 	 * HTTP Client used for making requests
 	 *
-	 * @var Discovery_HTTP_Adaptor object
+	 * @var Discovery_HTTP_Adapter object
 	 */
 	protected $http;
 
@@ -39,7 +39,7 @@ class Discovery_Context {
 	/**
 	 * Constructor.
 	 */
-	public function __construct($uri, Discovery_HTTP_Adaptor $http) {
+	public function __construct($uri, Discovery_HTTP_Adapter $http) {
 		$this->uri = $uri;
 		$this->http = $http;
 		$this->responses = array();

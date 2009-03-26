@@ -1,11 +1,11 @@
 <?php
 
-require_once 'Discovery/HTTP/Adaptor.php';
+require_once 'Discovery/HTTP/Adapter.php';
 require_once 'Zend/Http/Client.php';
 require_once 'Zend/Http/Response.php';
 require_once 'Zend/Http/CookieJar.php';
 
-class Discovery_HTTP_Zend implements Discovery_HTTP_Adaptor {
+class Discovery_HTTP_Zend implements Discovery_HTTP_Adapter {
 
 	public function fetch($request) {
 		$zend = new Zend_Http_Client();
