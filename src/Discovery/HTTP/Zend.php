@@ -6,14 +6,8 @@ require_once 'Zend/Http/Response.php';
 
 class Discovery_HTTP_Zend implements Discovery_HTTP_Adaptor {
 
-	private $zend;
-
-	public function __construct() {
-		$this->zend = new Zend_Http_Client();
-	}
-
 	public function fetch($request) {
-		$this->zend->resetParameters();
+		$zend = new Zend_Http_Client();
 
 		// map configuration options
 		$zend_config = array(
@@ -24,20 +18,20 @@ class Discovery_HTTP_Zend implements Discovery_HTTP_Adaptor {
 			'keepalive' => false,
 			'storeresponse' => true,
 		);
-		$this->zend->setConfig( $zend_config );
+		$zend->setConfig( $zend_config );
 
 		// setup request
-		$this->zend->setUri( $request['uri'] );
-		$this->zend->setMethod( strtoupper($request['method']) );
-		$this->zend->setHeaders( $request['headers'] );
-		$this->zend->setRawData( $request['body'] );
+		$zend->setUri( $request['uri'] );
+		$zend->setMethod( strtoupper($request['method']) );
+		$zend->setHeaders( $request['headers'] );
+		$zend->setRawData( $request['body'] );
 		if (!empty($request['cookies'])) {
 			foreach ($request['cookies'] as $name => $value) {
-				$this->zend->setCookie($name, $value);
+				$zend->setCookie($name, $value);
 			}
 		}
 
-		$zend_response = $this->zend->request();
+		$zend_response = $zend->request();
 
 		// convert http response
 		$response = array(
