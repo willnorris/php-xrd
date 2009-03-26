@@ -1,7 +1,7 @@
 <?php
 
 require_once 'Discovery/Context.php';
-require_once 'Discovery/LRDD/Link.php';
+require_once 'Discovery/LRDD/LinkPattern.php';
 require_once 'Discovery/LRDD/Method.php';
 
 
@@ -46,7 +46,8 @@ class Discovery_LRDD_Method_Host_Meta implements Discovery_LRDD_Method {
 	public static function parse($content) {
 		$links = array();
 
-		$lines = explode("\r\n", $content);
+		// be lenient with line endings
+		$lines = explode("\n", str_replace(array("\r\n", "\r"), "\n", $content) );
 
 		foreach ($lines as $line) {
 			if (empty($line)) continue;
@@ -55,12 +56,10 @@ class Discovery_LRDD_Method_Host_Meta implements Discovery_LRDD_Method {
 			$name = trim($name);
 			$value = trim($value);
 
-			// we only care about "link" host-meta entries
-			// TODO do something with the other host-meta entries
-			// TODO we actaully should only be working with link-patterns in host-meta
-			if (strcasecmp($name, 'link') != 0) continue;
+			// we only care about "link-pattern" host-meta entries
+			if (strcasecmp($name, 'link-pattern') != 0) continue;
 
-			$link = Discovery_LRDD_Link::from_header($value);
+			$link = Discovery_LRDD_LinkPattern::from_header($value);
 			if ( $link && in_array('describedby', $link->rel) ) {
 				$links[] = $link;
 			}

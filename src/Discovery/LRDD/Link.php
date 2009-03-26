@@ -17,6 +17,11 @@ class Discovery_LRDD_Link {
 	}
 
 	public static function from_header($header) {
+		list($uri, $rel, $type) = self::parse_header($header);
+		return new self($uri, $rel, $type);
+	}
+
+	protected static function parse_header($header) {
 		// link uri is always first
 		preg_match('/^<[^>]+>/', $header, $uri_reference);
 		if (empty($uri_reference)) return;
@@ -50,7 +55,7 @@ class Discovery_LRDD_Link {
 			}
 		}
 
-		return new self($link_uri, $link_rel, $link_type);
+		return array($link_uri, $link_rel, $link_type);
 	}
 }
 

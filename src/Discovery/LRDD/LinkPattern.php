@@ -71,6 +71,11 @@ class Discovery_LRDD_LinkPattern extends Discovery_LRDD_Link {
 		return $components;
 	}
 
+	public static function from_header($header) {
+		list($uri, $rel, $type) = self::parse_header($header);
+		return new self($uri, $rel, $type);
+	}
+
 }
 
 ?>
