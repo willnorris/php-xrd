@@ -12,7 +12,7 @@ class Discovery_LRDD_ParseTest extends Discovery_TestCase {
 
 	public function testLinkHTML() {
 		// test 1
-		$content = file_get_contents($this->data_dir . 'link-1.html');
+		$content = file_get_contents($this->data_dir . 'lrdd/link-1.html');
 		$links = Discovery_LRDD_Method_Link_HTML::parse($content);
 
 		$this->assertEquals(1, sizeof($links));
@@ -22,7 +22,7 @@ class Discovery_LRDD_ParseTest extends Discovery_TestCase {
 		$this->assertEquals('describedby', $links[0]->rel[0]);
 
 		// test 2
-		$content = file_get_contents($this->data_dir . 'link-2.html');
+		$content = file_get_contents($this->data_dir . 'lrdd/link-2.html');
 		$links = Discovery_LRDD_Method_Link_HTML::parse($content);
 
 		$this->assertEquals(2, sizeof($links));
@@ -76,7 +76,7 @@ class Discovery_LRDD_ParseTest extends Discovery_TestCase {
 
 	public function testHostMeta() {
 		// test 1
-		$content = file_get_contents($this->data_dir . 'host-meta-1');
+		$content = file_get_contents($this->data_dir . 'lrdd/host-meta-1');
 		$links = Discovery_LRDD_Method_Host_Meta::parse($content);
 
 		$this->assertEquals(1, sizeof($links));
@@ -86,7 +86,7 @@ class Discovery_LRDD_ParseTest extends Discovery_TestCase {
 		$this->assertEquals('describedby', $links[0]->rel[0]);
 
 		// test 2
-		$content = file_get_contents($this->data_dir . 'host-meta-2');
+		$content = file_get_contents($this->data_dir . 'lrdd/host-meta-2');
 		$links = Discovery_LRDD_Method_Host_Meta::parse($content);
 
 		$this->assertEquals(2, sizeof($links));
