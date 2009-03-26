@@ -80,7 +80,7 @@ class Discovery_LRDD_ParseTest extends Discovery_TestCase {
 		$links = Discovery_LRDD_Method_Host_Meta::parse($content);
 
 		$this->assertEquals(1, sizeof($links));
-		$this->assertEquals('http://openxrd.org/xrd.xml', $links[0]->uri);
+		$this->assertEquals('{uri};about', $links[0]->uri);
 		$this->assertEquals('application/xrd+xml', $links[0]->type);
 		$this->assertEquals(1, sizeof($links[0]->rel));
 		$this->assertEquals('describedby', $links[0]->rel[0]);
@@ -91,11 +91,11 @@ class Discovery_LRDD_ParseTest extends Discovery_TestCase {
 
 		$this->assertEquals(2, sizeof($links));
 
-		$this->assertEquals('http://openxrd.org/powder.xml', $links[0]->uri);
+		$this->assertEquals('http://openxrd.org/powder?uri={%uri}', $links[0]->uri);
 		$this->assertEquals(1, sizeof($links[0]->rel));
 		$this->assertEquals('describedby', $links[0]->rel[0]);
 
-		$this->assertEquals('http://openxrd.org/xrd.xml', $links[1]->uri);
+		$this->assertEquals('{uri};xrd', $links[1]->uri);
 		$this->assertEquals('application/xrd+xml', $links[1]->type);
 		$this->assertEquals(3, sizeof($links[1]->rel));
 		$this->assertTrue(in_array('describedby', $links[1]->rel));
