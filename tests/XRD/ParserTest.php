@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/TestCase.php';
+require_once dirname(dirname(__FILE__))) . '/TestCase.php';
 require_once 'XRD.php';
  
-class ParserTest extends Discovery_TestCase {
+class XRD_ParserTest extends Discovery_TestCase {
 
 	public function testParsing() {
 		$file = $this->data_dir . 'example.xml';

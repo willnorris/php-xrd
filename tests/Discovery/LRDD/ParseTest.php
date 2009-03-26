@@ -1,12 +1,13 @@
 <?php
 
-require_once dirname(__FILE__) . '/TestCase.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/TestCase.php';
+
 require_once 'Discovery/LRDD.php';
 require_once 'Discovery/LRDD/Method/Host_Meta.php';
 require_once 'Discovery/LRDD/Method/Link_Header.php';
 require_once 'Discovery/LRDD/Method/Link_HTML.php';
  
-class LRDDParseTest extends Discovery_TestCase {
+class Discovery_LRDD_ParseTest extends Discovery_TestCase {
 
 
 	public function testLinkHTML() {

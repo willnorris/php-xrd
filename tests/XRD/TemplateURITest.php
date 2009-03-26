@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/TestCase.php';
+require_once dirname(dirname(__FILE__)) . '/TestCase.php';
 require_once 'XRD/TemplateURI.php';
  
-class TemplateURITest extends Discovery_TestCase {
+class XRD_TemplateURITest extends Discovery_TestCase {
 
 	public function testTemplate() {
 		$resource = 'http://example.com/r/1?f=xml#top';
