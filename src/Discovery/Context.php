@@ -1,6 +1,6 @@
 <?php
 
-require_once 'HTTP/HTTP.php';
+require_once 'Discovery/HTTP/Adaptor.php';
 
 /**
  * The Discovery Context contains all of the information about the resolution of a specific URI.
@@ -18,8 +18,9 @@ class Discovery_Context {
 	/**
 	 * HTTP Client used for making requests
 	 *
-	 * @var WP_Http object
-	public $http;
+	 * @var Discovery_HTTP_Adaptor object
+	 */
+	protected $http;
 
 
 	/** 
@@ -30,17 +31,20 @@ class Discovery_Context {
 	 *
 	 * @var array associative array of response objects
 	 */
-	public $responses;
+	protected $responses;
 
 
 	/**
 	 * Constructor.
 	 */
-	public function __construct($uri) {
+	public function __construct($uri, Discovery_HTTP_Adaptor $http = null) {
 		$this->uri = $uri;
 		$this->responses = array();
-		$this->http = new WP_Http();
+
+		if ( $http == null ) $http = $this->httpAdaptor();
+		$this->http = $http;
 	}
+
 
 	public function fetch($request) {
 		$defaults = array(
@@ -63,12 +67,39 @@ class Discovery_Context {
 		$signature = md5(serialize($request));
 
 		if ( !array_key_exists($signature, $this->responses) ) {
-			$responses[$signature] = $this->http->request($request['uri'], $request);
+			$responses[$signature] = $this->http->fetch($request);
 		}
 
 		return $responses[$signature];
 	}
 
+
+	/**
+	 * Get appropriate HTTP adaptor based on what libraries are available.
+	 *
+	 * @return Discovery_HTTP_Adaptor
+	 */
+	protected function httpAdaptor() {
+		// WP_Http
+		if ( class_exists('WP_Http') ) {
+			require_once 'Discovery/HTTP/WP_Http.php';
+			return new Discovery_HTTP_WP();
+		}
+
+		// PEAR HTTP_Request2
+		@include_once 'HTTP/Request2.php';
+		if ( class_exists('HTTP_Request2') ) {
+			require_once 'Discovery/HTTP/Pear.php';
+			return new Discovery_HTTP_Pear();
+		}
+
+		// Zend_HTTP
+		@include_once 'Zend/HTTP.php';
+		if ( class_exists('Zend_HTTP') ) {
+			require_once 'Discovery/HTTP/Zend.php';
+			return new Discovery_HTTP_Zend();
+		}
+	}
 }
 
 
