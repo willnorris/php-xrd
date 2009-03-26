@@ -2,6 +2,8 @@
 
 /**
  * The Discovery Context contains all of the information about the resolution of a specific URI.
+ *
+ * @package Discovery
  */
 class Discovery_Context {
 

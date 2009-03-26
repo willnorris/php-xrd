@@ -6,6 +6,8 @@ require_once 'Discovery/LRDD/Method.php';
 
 /**
  * LRDD Method that uses HTML <link> element
+ *
+ * @package Discovery
  */
 class Discovery_LRDD_Method_Link_HTML implements Discovery_LRDD_Method {
 

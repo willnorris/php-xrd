@@ -6,6 +6,8 @@ require_once 'XRD/LocalID.php';
 
 /**
  * XRD Link.
+ *
+ * @package XRD
  */
 class XRD_Link {
 

@@ -9,6 +9,7 @@ require_once 'Discovery/LRDD/Method.php';
  * LRDD Method that uses /host-meta
  *
  * @see http://www.ietf.org/internet-drafts/draft-nottingham-site-meta-01.txt
+ * @package Discovery
  */
 class Discovery_LRDD_Method_Host_Meta implements Discovery_LRDD_Method {
 

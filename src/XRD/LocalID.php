@@ -4,6 +4,8 @@ require_once 'XRD/URI.php';
 
 /**
  * XRD LocalID.
+ *
+ * @package XRD
  */
 class XRD_LocalID extends XRD_URI {
 

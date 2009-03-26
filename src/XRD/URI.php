@@ -2,6 +2,8 @@
 
 /**
  * XRD URI.
+ *
+ * @package XRD
  */
 class XRD_URI {
 

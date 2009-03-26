@@ -4,6 +4,8 @@ require_once 'XRD/URI.php';
 
 /**
  * XRD TemplateURI.
+ *
+ * @package XRD
  */
 class XRD_TemplateURI extends XRD_URI {
 

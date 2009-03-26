@@ -2,6 +2,8 @@
 
 /**
  * XRD Type.
+ *
+ * @package XRD
  */
 class XRD_Type {
 

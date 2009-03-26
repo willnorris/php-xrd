@@ -2,6 +2,11 @@
 
 require_once 'Discovery/LRDD/Link.php';
 
+/**
+ * LRDD Link Pattern
+ *
+ * @package Discovery
+ */
 class Discovery_LRDD_LinkPattern extends Discovery_LRDD_Link {
 
 	public function __construct($uri = null, $rel = null, $type = null) {
