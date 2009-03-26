@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Discovery/Context.php';
+require_once 'Discovery/Util.php';
 require_once 'Discovery/LRDD/Link.php';
 require_once 'Discovery/LRDD/Method/Host_Meta.php';
 require_once 'Discovery/LRDD/Method/Link_Header.php';
@@ -23,13 +24,20 @@ class Discovery_LRDD {
 	 */
 	public $discovery_methods;
 
+	/**
+	 *
+	 * @var Discovery_HTTP_Adaptor
+	 */
+	public $http;
 
 	/**
 	 * Constructor.
 	 */
-	public function __construct() {
-		$this->discovery_methods = array();
+	public function __construct(Discovery_HTTP_Adaptor $http = null) {
+		if ( $http == null ) $http = Discovery_Util::httpAdaptor();
+		$this->http = $http;
 
+		$this->discovery_methods = array();
 		$this->register_discovery_method('Discovery_LRDD_Method_Link_HTML');
 		$this->register_discovery_method('Discovery_LRDD_Method_Link_Header');
 		$this->register_discovery_method('Discovery_LRDD_Method_Host_Meta');
@@ -49,7 +57,8 @@ class Discovery_LRDD {
 	/**
 	 * Discover available descriptor documents for the specified identifier.
 	 *
-	 * @param string $uri URI to perform discovery on
+	 * @param string|Discovery_Context $uri discovery context used for discovery,
+	 *     or URI use to create a new discovery context
 	 * @return array array of Discovery_LRDD_Link objects
 	 */
 	public function discover($uri) {
@@ -60,7 +69,7 @@ class Discovery_LRDD {
 			return $lrdd->discover($uri);
 		}
 
-		$context = new Discovery_Context($uri);
+		$context = new Discovery_Context($uri, $this->http);
 
 		foreach ($this->discovery_methods as $class) {
 			$links = call_user_func(array($class, 'discover'), $context);

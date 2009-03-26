@@ -39,12 +39,10 @@ class Discovery_Context {
 	/**
 	 * Constructor.
 	 */
-	public function __construct($uri, Discovery_HTTP_Adaptor $http = null) {
+	public function __construct($uri, Discovery_HTTP_Adaptor $http) {
 		$this->uri = $uri;
-		$this->responses = array();
-
-		if ( $http == null ) $http = $this->httpAdaptor();
 		$this->http = $http;
+		$this->responses = array();
 	}
 
 
@@ -75,35 +73,6 @@ class Discovery_Context {
 		return $responses[$signature];
 	}
 
-
-	/**
-	 * Get appropriate HTTP adaptor based on what libraries are available.
-	 *
-	 * @return Discovery_HTTP_Adaptor
-	 */
-	protected function httpAdaptor() {
-		// WP_Http
-		if ( class_exists('WP_Http') ) {
-			require_once 'Discovery/HTTP/WP_Http.php';
-			return new Discovery_HTTP_WP();
-		}
-
-		// Zend_HTTP
-		@include_once 'Zend/Http/Client.php';
-		if ( class_exists('Zend_Http_Client') ) {
-			require_once 'Discovery/HTTP/Zend.php';
-			return new Discovery_HTTP_Zend();
-		}
-
-		// PEAR HTTP_Request2
-		@include_once 'HTTP/Request2.php';
-		if ( class_exists('HTTP_Request2') ) {
-			require_once 'Discovery/HTTP/Pear.php';
-			return new Discovery_HTTP_Pear();
-		}
-
-	}
 }
-
 
 ?>

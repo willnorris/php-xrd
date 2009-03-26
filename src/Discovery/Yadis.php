@@ -1,5 +1,10 @@
 <?php
 
+require_once 'Discovery/Context.php';
+require_once 'Discovery/Util.php';
+require_once 'Discovery/HTTP/Adaptor.php';
+require_once 'Discovery/Yadis/Methods.php';
+require_once 'XRDS.php';
 
 /**
  * Yadis Discovery
@@ -15,11 +20,20 @@ class Discovery_Yadis {
 
 
 	/**
+	 *
+	 * @var Discovery_HTTP_Adaptor
+	 */
+	public $http;
+
+
+	/**
 	 * Constructor.
 	 */
-	public function __construct() {
-		$this->discovery_methods = array();
+	public function __construct(Discovery_HTTP_Adaptor $http = null) {
+		if ( $http == null ) $http = Discovery_Util::httpAdaptor();
+		$this->http = $http;
 
+		$this->discovery_methods = array();
 		$this->register_discovery_method('Discovery_Yadis_Content_Negotiation');
 		$this->register_discovery_method('Discovery_Yadis_Location_Header');
 		$this->register_discovery_method('Discovery_Yadis_HTML_Meta');
@@ -39,7 +53,8 @@ class Discovery_Yadis {
 	/**
 	 * Discover a XRDS document for the specified identifier.
 	 *
-	 * @param string $uri URI to perform discovery on
+	 * @param string|Discovery_Context $uri discovery context used for discovery,
+	 *     or URI use to create a new discovery context
 	 * @return XRDS object
 	 */
 	public function discover($uri) {
@@ -50,7 +65,7 @@ class Discovery_Yadis {
 			return $yadis->discover($uri);
 		}
 
-		$context = new Discovery_Context($uri);
+		$context = new Discovery_Context($uri, $this->http);
 
 		foreach($this->discovery_methods as $class) {
 			$xrds = call_user_func(array($class, 'discover'), $context);
