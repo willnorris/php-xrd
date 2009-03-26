@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Discovery/Util.php';
+
 class Discovery_LRDD_Link {
 
 	public $uri;
@@ -15,18 +17,22 @@ class Discovery_LRDD_Link {
 	}
 
 	public static function from_header($header) {
-		$params = explode(';', $header);
-		if (sizeof($params) == 0) return;
-
 		// link uri is always first
-		$link_uri = array_shift($params);
-		$link_uri = preg_replace('(^<|>$)', '', trim($link_uri));
+		preg_match('/^<[^>]+>/', $header, $uri_reference);
+		if (empty($uri_reference)) return;
 
+		$link_uri = trim($uri_reference[0], '<>');
 		$link_rel = array();
 		$link_type = null;
 
-		// parse remaining link-params
+		// remove uri-reference from header
+		$header = substr($header, strlen($uri_reference[0]));
+
+		// parse link-params
+		$params = Discovery_Util::split($header, ';');
+
 		foreach ($params as $param) {
+			if (empty($param)) continue;
 			list($param_name, $param_value) = explode('=', $param, 2);
 			$param_name = trim($param_name);
 			$param_value = preg_replace('(^"|"$)', '', trim($param_value));
@@ -46,7 +52,7 @@ class Discovery_LRDD_Link {
 
 		return new self($link_uri, $link_rel, $link_type);
 	}
-
 }
+
 
 ?>
