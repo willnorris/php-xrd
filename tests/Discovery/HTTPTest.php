@@ -5,22 +5,7 @@ require_once 'Discovery/Context.php';
  
 class HTTPTest extends Discovery_TestCase {
 
-	private $include_path;
-
-	public function __construct() {
-		parent::__construct();
-		$this->include_path = get_include_path();
-	}
-
-	public function tearDown() {
-		set_include_path($this->include_path);
-	}
-
 	public function testWP() {
-		if ( defined('WP_HTTP_ROOT') ) {
-			set_include_path( WP_HTTP_ROOT . PATH_SEPARATOR . get_include_path() );
-		}
-
 		@include_once 'WP_Http.php';
 		if ( !class_exists('WP_Http') ) {
 			error_log('Unable to find WP_Http');
@@ -39,10 +24,6 @@ class HTTPTest extends Discovery_TestCase {
 	}
 	
 	public function testZend() {
-		if ( defined('ZEND_ROOT') ) {
-			set_include_path( ZEND_ROOT . PATH_SEPARATOR . get_include_path() );
-		}
-
 		@include_once 'Zend/Http/Client.php';
 		if ( !class_exists('Zend_Http_Client') ) {
 			error_log('Unable to find Zend_Http_Client');
@@ -61,10 +42,6 @@ class HTTPTest extends Discovery_TestCase {
 	}
 
 	public function testPEAR() {
-		if ( defined('PEAR_ROOT') ) {
-			set_include_path( PEAR_ROOT . PATH_SEPARATOR . get_include_path() );
-		}
-
 		@include_once 'HTTP/Request2.php';
 		if ( !class_exists('HTTP_Request2') ) {
 			error_log('Unable to find HTTP_Request2');
