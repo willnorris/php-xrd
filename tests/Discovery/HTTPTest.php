@@ -3,7 +3,7 @@
 require_once dirname(dirname(__FILE__)) . '/TestCase.php';
 require_once 'Discovery/Context.php';
  
-class HTTPTest extends Discovery_TestCase {
+class Discovery_HTTPTest extends Discovery_TestCase {
 
 	public function testWP() {
 		@include_once 'WP_Http.php';

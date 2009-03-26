@@ -7,6 +7,8 @@ require_once dirname(__FILE__) . '/Discovery/LRDD/FetchTest.php';
 require_once dirname(__FILE__) . '/XRD/TemplateURITest.php';
 require_once dirname(__FILE__) . '/XRD/ParserTest.php';
 
+require_once dirname(__FILE__) . '/Discovery/HTTPTest.php';
+
 class AllTests extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
@@ -19,6 +21,8 @@ class AllTests extends PHPUnit_Framework_TestSuite
 
 		$suite->addTestSuite('XRD_TemplateURITest');
 		$suite->addTestSuite('XRD_ParserTest');
+
+		$suite->addTestSuite('Discovery_HTTPTest');
 
 		return $suite;
     }
