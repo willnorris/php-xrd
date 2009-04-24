@@ -1,7 +1,7 @@
 <?php
 
 require_once 'XRD/URI.php';
-require_once 'XRD/TemplateURI.php';
+require_once 'XRD/URITemplate.php';
 require_once 'XRD/LocalID.php';
 
 /**
@@ -46,9 +46,9 @@ class XRD_Link {
 	/** 
 	 * Template URIs.
 	 *
-	 * @var array of XRD_TemplateURI objects
+	 * @var array of XRD_URITemplate objects
 	 */
-	public $template_uri;
+	public $uri_template;
 
 
 	/** 
@@ -65,15 +65,15 @@ class XRD_Link {
 	 * @param mixed $rel Rel string or array of Rel strings
 	 * @param mixed $media_type Media Type string or array of Media Type strings
 	 * @param mixed $uri XRD_URI object or array of XRD_URI objects
-	 * @param mixed $type XRD_TemplateURI object or array of XRD_TemplateURI objects
+	 * @param mixed $type XRD_URITemplate object or array of XRD_URITemplate objects
 	 * @param mixed $type XRD_LocalID object or array of XRD_LocalID objects
 	 * @param int $priority Priority
 	 */
-	public function __construct($rel=null, $media_type=null, $uri=null, $template_uri=null, $local_id=null, $priority=10) {
+	public function __construct($rel=null, $media_type=null, $uri=null, $uri_template=null, $local_id=null, $priority=10) {
 		$this->rel = (array) $rel;
 		$this->media_type = (array) $media_type;
 		$this->uri = (array) $uri;
-		$this->template_uri = (array) $template_uri;
+		$this->uri_template = (array) $uri_template;
 		$this->local_id = (array) $local_id;
 		$this->priority = $priority;
 	}
@@ -107,9 +107,9 @@ class XRD_Link {
 					$link->uri[] = $uri;
 					break;
 
-				case 'TemplateURI':
-					$template_uri = XRD_TemplateURI::from_dom($node);
-					$link->template_uri[] = $template_uri;
+				case 'URITemplate':
+					$uri_template = XRD_URITemplate::from_dom($node);
+					$link->uri_template[] = $uri_template;
 					break;
 
 				case 'LocalID':
@@ -120,7 +120,7 @@ class XRD_Link {
 		}
 
 		usort($link->uri, array('XRD', 'priority_sort'));
-		usort($link->template_uri, array('XRD', 'priority_sort'));
+		usort($link->uri_template, array('XRD', 'priority_sort'));
 		usort($link->local_id, array('XRD', 'priority_sort'));
 
 		return $link;
@@ -155,8 +155,8 @@ class XRD_Link {
 			$link_dom->appendChild($uri_dom);
 		}
 
-		foreach ($this->template_uri as $template_uri) {
-			$uri_dom = $template_uri->to_dom($dom);
+		foreach ($this->uri_template as $uri_template) {
+			$uri_dom = $uri_template->to_dom($dom);
 			$link_dom->appendChild($uri_dom);
 		}
 

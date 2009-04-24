@@ -3,15 +3,15 @@
 require_once 'XRD/URI.php';
 
 /**
- * XRD TemplateURI.
+ * XRD URITemplate.
  *
  * @package XRD
  */
-class XRD_TemplateURI extends XRD_URI {
+class XRD_URITemplate extends XRD_URI {
 
 
 	public function nodeName() {
-		return 'TemplateURI';
+		return 'URITemplate';
 	}
 
 
@@ -21,10 +21,10 @@ class XRD_TemplateURI extends XRD_URI {
 	}
 
 	/**
-	 * Create an XRD_TemplateURI object from a DOMElement.
+	 * Create an XRD_URITemplate object from a DOMElement.
 	 *
 	 * @param DOMElement $dom DOM element to load
-	 * @return XRD_TemplateURI object
+	 * @return XRD_URITemplate object
 	 */
 	public static function from_dom(DOMElement $dom) {
 		$uri = new self();

@@ -4,7 +4,7 @@
 		<Rel>http://specs.example.com/wish_list/1.0</Rel>
 		<MediaType>image/jpeg</MediaType>
 		<URI>http://books.example.com/wishlist</URI>
-		<TemplateURI>http://books.example.com/template</TemplateURI>
+		<URITemplate>http://books.example.com/template</URITemplate>
 		<LocalID>jane</LocalID>
 	</Link>
 	<Link priority="20">
