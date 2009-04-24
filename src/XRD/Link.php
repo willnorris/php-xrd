@@ -2,7 +2,7 @@
 
 require_once 'XRD/URI.php';
 require_once 'XRD/URITemplate.php';
-require_once 'XRD/LocalID.php';
+require_once 'XRD/SourceAlias.php';
 
 /**
  * XRD Link.
@@ -18,6 +18,13 @@ class XRD_Link {
 	 */
 	public $priority;
 
+
+	/**
+	 * Target Subject.
+	 *
+	 * @var string
+	 */
+	public $target_subject;
 
 	/** 
 	 * Rels.
@@ -52,11 +59,11 @@ class XRD_Link {
 
 
 	/** 
-	 * Local IDs.
+	 * Source Aliases.
 	 *
-	 * @var array of XRD_LocalID objects
+	 * @var array of XRD_SourceAlias objects
 	 */
-	public $local_id;
+	public $source_alias;
 
 
 	/**
@@ -65,17 +72,19 @@ class XRD_Link {
 	 * @param mixed $rel Rel string or array of Rel strings
 	 * @param mixed $media_type Media Type string or array of Media Type strings
 	 * @param mixed $uri XRD_URI object or array of XRD_URI objects
-	 * @param mixed $type XRD_URITemplate object or array of XRD_URITemplate objects
-	 * @param mixed $type XRD_LocalID object or array of XRD_LocalID objects
+	 * @param mixed $uri_template XRD_URITemplate object or array of XRD_URITemplate objects
+	 * @param mixed $source_alias XRD_SourceAlias object or array of XRD_SourceAlias objects
 	 * @param int $priority Priority
+	 * @param string $target_subject TargetSubject value
 	 */
-	public function __construct($rel=null, $media_type=null, $uri=null, $uri_template=null, $local_id=null, $priority=10) {
+	public function __construct($rel=null, $media_type=null, $uri=null, $uri_template=null, $source_alias=null, $priority=10, $target_subject=null) {
 		$this->rel = (array) $rel;
 		$this->media_type = (array) $media_type;
 		$this->uri = (array) $uri;
 		$this->uri_template = (array) $uri_template;
-		$this->local_id = (array) $local_id;
+		$this->source_alias = (array) $source_alias;
 		$this->priority = $priority;
+		$this->target_subject = (string) $target_subject;
 	}
 
 
@@ -94,6 +103,10 @@ class XRD_Link {
 			if (!isset($node->tagName)) continue;
 
 			switch($node->tagName) {
+				case 'TargetSubject':
+					$link->target_subject = $node->nodeValue;
+					break;
+
 				case 'Rel':
 					$link->rel[] = $node->nodeValue;
 					break;
@@ -112,16 +125,16 @@ class XRD_Link {
 					$link->uri_template[] = $uri_template;
 					break;
 
-				case 'LocalID':
-					$local_id = XRD_LocalID::from_dom($node);
-					$link->local_id[] = $local_id;
+				case 'SourceAlias':
+					$source_alias = XRD_SourceAlias::from_dom($node);
+					$link->source_alias[] = $source_alias;
 					break;
 			}
 		}
 
 		usort($link->uri, array('XRD', 'priority_sort'));
 		usort($link->uri_template, array('XRD', 'priority_sort'));
-		usort($link->local_id, array('XRD', 'priority_sort'));
+		usort($link->source_alias, array('XRD', 'priority_sort'));
 
 		return $link;
 	}
@@ -138,6 +151,11 @@ class XRD_Link {
 
 		if ($this->priority) {
 			$link_dom->setAttribute('priority', $this->priority);
+		}
+
+		if ($this->target_subject) {
+			$subject_dom = $dom->createElement('TargetSubject', $this->target_subject);
+			$link_dom->appendChild($subject_dom);
 		}
 
 		foreach ($this->rel as $rel) {
@@ -160,9 +178,9 @@ class XRD_Link {
 			$link_dom->appendChild($uri_dom);
 		}
 
-		foreach ($this->local_id as $local_id) {
-			$id_dom = $local_id->to_dom($dom);
-			$link_dom->appendChild($id_dom);
+		foreach ($this->source_alias as $source_alias) {
+			$alias_dom = $source_alias->to_dom($dom);
+			$link_dom->appendChild($alias_dom);
 		}
 
 		return $link_dom;

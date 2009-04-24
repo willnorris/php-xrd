@@ -5,13 +5,13 @@
 		<MediaType>image/jpeg</MediaType>
 		<URI>http://books.example.com/wishlist</URI>
 		<URITemplate>http://books.example.com/template</URITemplate>
-		<LocalID>jane</LocalID>
+		<SourceAlias>jane</SourceAlias>
 	</Link>
 	<Link priority="20">
 		<Rel>http://specs.example.com/wish_list/1.0</Rel>
 		<Rel>http://specs.example.com/wish_list/2.0</Rel>
 		<URI priority="10">https://dvds.example.org/lists/wishes</URI>
 		<URI priority="20">http://dvds.example.org/lists/wishes</URI>
-		<LocalID>janedoe</LocalID>
+		<SourceAlias>janedoe</SourceAlias>
 	</Link>
 </XRD>
