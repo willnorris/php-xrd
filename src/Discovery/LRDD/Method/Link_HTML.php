@@ -48,7 +48,7 @@ class Discovery_LRDD_Method_Link_HTML implements Discovery_LRDD_Method {
 			} else if ( isset($rel_matches[1]) ) {
 				$link_rel = explode(' ', $rel_matches[1]);
 			}
-			if ( !in_array('describedby', $link_rel) ) continue;
+			if ( !in_array('lrdd', $link_rel) ) continue;
 
 			preg_match('/\shref=(("|\')([^\\2]*?)\\2|[^"\'\s]+)/i', $link_html, $href_matches);
 			if ( isset($href_matches[3]) ) {

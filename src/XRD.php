@@ -1,6 +1,6 @@
 <?php
 
-require_once('XRD/Type.php');
+require_once('XRD/Property.php');
 require_once('XRD/Link.php');
 
 /**
@@ -13,7 +13,7 @@ class XRD {
 	/** 
 	 * XRD XML Namespace 
 	 */
-	const XML_NS = 'http://xrd.org/1.0';
+	const XML_NS = 'http://docs.oasis-open.org/ns/xri/xrd-1.0';
 
 	/**
 	 * XRD Content Type
@@ -45,11 +45,11 @@ class XRD {
 
 
 	/** 
-	 * Types. 
+	 * Properties. 
 	 *
-	 * @var array of XRD_Type objects
+	 * @var array of XRD_Property objects
 	 */
-	public $type;
+	public $property;
 
 
 	/** 
@@ -59,18 +59,17 @@ class XRD {
 	 */
 	public $link;
 
-
 	/**
 	 * Constructor.
 	 *
 	 * @param mixed $type XRD_Type object or array of XRD_Type objects
 	 * @param mixed $link XRD_Link object or array of XRD_Link objects
-	 * @param mixed $link Alias string or array of Alias strings
+	 * @param mixed $alias Alias string or array of Alias strings
 	 * @param string $subject XRD subject
 	 * @param string $expires expiration date
 	 */
-	public function __construct($type=null, $link=null, $alias=null, $subject=null, $expires=null) {
-		$this->type = (array) $type;
+	public function __construct($property=null, $link=null, $alias=null, $subject=null, $expires=null) {
+		$this->property = (array) $property;
 		$this->link = (array) $link;
 		$this->alias = (array) $alias;
 		$this->expires = $expires;
@@ -103,9 +102,9 @@ class XRD {
 					$xrd->alias[] = $node->nodeValue;
 					break;
 
-				case 'Type':
-					$type = XRD_Type::from_dom($node);
-					$xrd->type[] = $type;
+				case 'Property':
+					$property = XRD_Property::from_dom($node);
+					$xrd->property[] = $property;
 					break;
 
 				case 'Link':
@@ -114,8 +113,6 @@ class XRD {
 					break;
 			}
 		}
-
-		usort($xrd->link, array('XRD', 'priority_sort'));
 
 		return $xrd;
 	}
@@ -150,9 +147,9 @@ class XRD {
 			$xrd_dom->appendChild($alias_dom);
 		}
 
-		foreach ($this->type as $type) {
-			$type_dom = $dom->createElement('Type', $type);
-			$xrd_dom->appendChild($type_dom);
+		foreach ($this->property as $property) {
+			$property_dom = $dom->createElement('Property', $type);
+			$xrd_dom->appendChild($property_dom);
 		}
 
 		foreach ($this->link as $link) {
@@ -224,36 +221,6 @@ class XRD {
 			}
 		}
 	}
-
-
-	/**
-	 * Compare items based on the priority rules of XRD.
-	 * Items are sorted in increasing priority order, with null 
-	 * values interpreted as infinity.
-	 *
-	 * @param object $a first object to compare
-	 * @param object $b second object to compare
-	 * @return int -1 if $a has a lower priority, +1 if $b has a lower priority, 0 if the two priorities are equal
-	 * @see usort
-	 */
-	public function priority_sort($a, $b) {
-
-		// deal with null values
-		if ($a->priority === null) {
-			if ($b->priority === null) {
-				return 0;
-			} else {
-				return 1;
-			}
-		} else if ($b->priority === null) {
-			return -1;
-		}
-
-		if ($a->priority == $b->priority) return 0;
-		if ($a->priority > $b->priority) return 1;
-		if ($a->priority < $b->priority) return -1;
-	}
-
 }
 
 ?>
