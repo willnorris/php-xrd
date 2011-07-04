@@ -6,7 +6,7 @@ Descriptor Discovery (LRDD) and working with Extensible Service Descriptors
 ## LRDD ##
 
 The Link-based Resource Descriptor Discovery protocol (pronounced 'lard') is a
-collection of three link methods and a common relation type ('lrrd').
+collection of three link methods and a common relation type ('lrdd').
 Together they are used to associate a descriptor to the resource it describes.
 
 The LRDD portion of this library is only responsible for retrieving the Links
