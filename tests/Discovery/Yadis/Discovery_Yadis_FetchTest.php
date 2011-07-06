@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(dirname(dirname(__FILE__))) . '/TestCase.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/Discovery_TestCase.php';
 
 require_once 'Discovery/Yadis.php';
 require_once 'Discovery/Yadis/Methods.php';

@@ -1,12 +1,12 @@
 <?php
 
 define( 'DISCOVERY_ROOT', dirname(dirname(__FILE__)) );
-set_include_path(DISCOVERY_ROOT . '/src' . PATH_SEPARATOR . get_include_path());
+set_include_path(get_include_path().PATH_SEPARATOR.DISCOVERY_ROOT . '/src');
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 
-require_once 'PHPUnit/Framework.php';
+//require_once 'PHPUnit/Framework.php';
 @include_once dirname(__FILE__) . '/config.php';
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(dirname(dirname(__FILE__))) . '/TestCase.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/Discovery_TestCase.php';
 
 require_once 'Discovery/LRDD.php';
 require_once 'Discovery/LRDD/Method/Host_Meta.php';
@@ -48,7 +48,6 @@ class Discovery_LRDD_FetchTest extends Discovery_TestCase {
 		$this->assertEquals('http://test.openxrd.org/header/simple;about', $links[0]->applyPattern($url));
 		$this->assertEquals('{uri};powder', $links[1]->uri);
 	}
-
 }
 
 ?>

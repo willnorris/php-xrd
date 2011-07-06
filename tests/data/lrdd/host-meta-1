@@ -1,1 +1,1 @@
-Link-Pattern: <{uri};about>; rel="lrrd"; type="application/xrd+xml"
+Link-Pattern: <{uri};about>; rel="lrdd"; type="application/xrd+xml"

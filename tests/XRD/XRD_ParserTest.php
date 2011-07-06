@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(dirname(__FILE__)) . '/TestCase.php';
+require_once dirname(dirname(__FILE__)) . '/Discovery_TestCase.php';
 require_once 'XRD.php';
  
 class XRD_ParserTest extends Discovery_TestCase {

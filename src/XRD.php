@@ -133,12 +133,12 @@ class XRD {
 		$dom->appendChild($xrd_dom);
 
 		if ($this->expires) {
-			$expires_dom = $xrd->createElement('Expires', $expires);
+			$expires_dom = $dom->createElement('Expires', $this->expires);
 			$xrd_dom->appendChild($expires_dom);
 		}
 
 		if ($this->subject) {
-			$subject_dom = $xrd->createElement('Subject', $expires);
+			$subject_dom = $dom->createElement('Subject', $this->subject);
 			$xrd_dom->appendChild($subject_dom);
 		}
 
@@ -148,7 +148,7 @@ class XRD {
 		}
 
 		foreach ($this->property as $property) {
-			$property_dom = $dom->createElement('Property', $type);
+			$property_dom = $property->to_dom($dom);
 			$xrd_dom->appendChild($property_dom);
 		}
 

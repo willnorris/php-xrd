@@ -74,7 +74,7 @@ class XRD_Title {
 		$nodeName = $this->nodeName();
 		$title_dom = $dom->createElement($nodeName, $this->value);
 
-		if ($this->priority) {
+		if ($this->lang) {
 			$title_dom->setAttribute('xml:lang', $this->lang);
 		}
 
