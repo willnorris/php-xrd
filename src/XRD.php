@@ -204,23 +204,5 @@ class XRD {
 		$dom->formatOutput = $format;
 		return $dom->saveXML();
 	}
-
-
-	/**
-	 * Discover XRD document for specified URI.
-	 */
-	public static function discover($uri) {
-		require_once 'Discovery/LRDD.php';
-
-		$links = Discovery_LRDD::discover($uri);
-
-		foreach ($links as $link) {
-			if (in_array('describedby', $link->rel) && $link->type == self::CONTENT_TYPE) {
-				$content = Discovery_LRDD::fetch($link->uri);
-				return self::loadXML($content);
-			}
-		}
-	}
 }
-
 ?>
