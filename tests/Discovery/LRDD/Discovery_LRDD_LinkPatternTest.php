@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(dirname(dirname(__FILE__))) . '/TestCase.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/Discovery_TestCase.php';
 require_once 'Discovery/LRDD/LinkPattern.php';
  
 class Discovery_LRDD_LinkPatternTest extends Discovery_TestCase {

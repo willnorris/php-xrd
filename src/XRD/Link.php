@@ -1,8 +1,7 @@
 <?php
 
-require_once 'XRD/URI.php';
-require_once 'XRD/URITemplate.php';
-require_once 'XRD/SourceAlias.php';
+require_once 'XRD/Title.php';
+require_once 'XRD/Property.php';
 
 /**
  * XRD Link.
@@ -12,79 +11,64 @@ require_once 'XRD/SourceAlias.php';
 class XRD_Link {
 
 	/** 
-	 * Priority. 
-	 *
-	 * @var int
-	 */
-	public $priority;
-
-
-	/**
-	 * Target Subject.
+	 * Rel.
 	 *
 	 * @var string
 	 */
-	public $target_subject;
-
-	/** 
-	 * Rels.
-	 *
-	 * @var array of strings
-	 */
 	public $rel;
 
+	/** 
+	 * Type.
+	 *
+	 * @var string
+	 */
+	public $type;
 
 	/** 
-	 * Media types.
+	 * Href.
 	 *
-	 * @var array of strings
+	 * @var string
 	 */
-	public $media_type;
-
-
+	public $href;
+	
 	/** 
-	 * URIs.
+	 * Template.
 	 *
-	 * @var array of XRD_URI objects
+	 * @var string
 	 */
-	public $uri;
-
-
-	/** 
-	 * Template URIs.
+	public $template;
+  
+  /** 
+	 * Title.
 	 *
-	 * @var array of XRD_URITemplate objects
+	 * @var array of Titles
 	 */
-	public $uri_template;
+	public $title;
 
-
-	/** 
-	 * Source Aliases.
+  /** 
+	 * Property.
 	 *
-	 * @var array of XRD_SourceAlias objects
+	 * @var array of Properties
 	 */
-	public $source_alias;
-
-
+	public $property;
+	
 	/**
 	 * Constructor.
 	 *
-	 * @param mixed $rel Rel string or array of Rel strings
-	 * @param mixed $media_type Media Type string or array of Media Type strings
-	 * @param mixed $uri XRD_URI object or array of XRD_URI objects
-	 * @param mixed $uri_template XRD_URITemplate object or array of XRD_URITemplate objects
-	 * @param mixed $source_alias XRD_SourceAlias object or array of XRD_SourceAlias objects
-	 * @param int $priority Priority
-	 * @param string $target_subject TargetSubject value
+	 * @param string $rel Rel string
+	 * @param string $type Type string
+	 * @param string $href Href string
+	 * @param string $template Template string
+	 * @param mixed $title XRD_Title object or array of XRD_Title objects
+	 * @param mixed $property XRD_Property object or array of XRD_Property objects
 	 */
-	public function __construct($rel=null, $media_type=null, $uri=null, $uri_template=null, $source_alias=null, $priority=10, $target_subject=null) {
-		$this->rel = (array) $rel;
-		$this->media_type = (array) $media_type;
-		$this->uri = (array) $uri;
-		$this->uri_template = (array) $uri_template;
-		$this->source_alias = (array) $source_alias;
-		$this->priority = $priority;
-		$this->target_subject = (string) $target_subject;
+	public function __construct($rel=null, $type=null, $href=null, $template=null, $title=null, $property=null) {
+		$this->rel = $rel;
+		$this->type = $type;
+		$this->href = $href;
+		$this->template = $template;
+		$this->title = (array) $title;
+		$this->property = (array) $property;
 	}
 
 
@@ -96,45 +80,38 @@ class XRD_Link {
 	 */
 	public static function from_dom(DOMElement $dom) {
 		$link = new self();
-
-		$link->priority = $dom->getAttribute('priority');
-
+    
+    if ($dom->hasAttribute('rel')) {
+      $link->rel = $dom->getAttribute('rel');
+    }
+    
+    if ($dom->hasAttribute('href')) {
+      $link->href = $dom->getAttribute('href');
+    }
+    
+    if ($dom->hasAttribute('type')) {
+      $link->type = $dom->getAttribute('type');
+    }
+    
+    if ($dom->hasAttribute('template')) {
+      $link->template = $dom->getAttribute('template');
+    }
+    
 		foreach ($dom->childNodes as $node) {
 			if (!isset($node->tagName)) continue;
 
 			switch($node->tagName) {
-				case 'TargetSubject':
-					$link->target_subject = $node->nodeValue;
+				case 'Title':
+					$title = XRD_Title::from_dom($node);
+					$link->title[] = $title;
 					break;
 
-				case 'Rel':
-					$link->rel[] = $node->nodeValue;
-					break;
-
-				case 'MediaType':
-					$link->media_type[] = $node->nodeValue;
-					break;
-
-				case 'URI':
-					$uri = XRD_URI::from_dom($node);
-					$link->uri[] = $uri;
-					break;
-
-				case 'URITemplate':
-					$uri_template = XRD_URITemplate::from_dom($node);
-					$link->uri_template[] = $uri_template;
-					break;
-
-				case 'SourceAlias':
-					$source_alias = XRD_SourceAlias::from_dom($node);
-					$link->source_alias[] = $source_alias;
+				case 'Property':
+					$property = XRD_Property::from_dom($node);
+					$link->property[] = $property;
 					break;
 			}
 		}
-
-		usort($link->uri, array('XRD', 'priority_sort'));
-		usort($link->uri_template, array('XRD', 'priority_sort'));
-		usort($link->source_alias, array('XRD', 'priority_sort'));
 
 		return $link;
 	}
@@ -148,39 +125,31 @@ class XRD_Link {
 	 */
 	public function to_dom($dom) {
 		$link_dom = $dom->createElement('Link');
-
-		if ($this->priority) {
-			$link_dom->setAttribute('priority', $this->priority);
+    
+		if ($this->rel) {
+			$link_dom->setAttribute('rel', $this->rel);
+		}
+		
+		if ($this->type) {
+			$link_dom->setAttribute('type', $this->type);
+		}
+		
+		if ($this->href) {
+			$link_dom->setAttribute('href', $this->href);
+		}
+		
+		if ($this->template) {
+			$link_dom->setAttribute('template', $this->template);
 		}
 
-		if ($this->target_subject) {
-			$subject_dom = $dom->createElement('TargetSubject', $this->target_subject);
-			$link_dom->appendChild($subject_dom);
+		foreach ($this->title as $title) {
+			$title_dom = $title->to_dom($dom);
+			$link_dom->appendChild($title_dom);
 		}
-
-		foreach ($this->rel as $rel) {
-			$rel_dom = $dom->createElement('Rel', $rel);
-			$link_dom->appendChild($rel_dom);
-		}
-
-		foreach ($this->media_type as $type) {
-			$type_dom = $dom->createElement('MediaType', $type);
-			$link_dom->appendChild($type_dom);
-		}
-
-		foreach ($this->uri as $uri) {
-			$uri_dom = $uri->to_dom($dom);
-			$link_dom->appendChild($uri_dom);
-		}
-
-		foreach ($this->uri_template as $uri_template) {
-			$uri_dom = $uri_template->to_dom($dom);
-			$link_dom->appendChild($uri_dom);
-		}
-
-		foreach ($this->source_alias as $source_alias) {
-			$alias_dom = $source_alias->to_dom($dom);
-			$link_dom->appendChild($alias_dom);
+		
+		foreach ($this->property as $property) {
+			$property_dom = $property->to_dom($dom);
+			$link_dom->appendChild($property_dom);
 		}
 
 		return $link_dom;

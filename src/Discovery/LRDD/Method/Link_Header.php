@@ -19,9 +19,12 @@ class Discovery_LRDD_Method_Link_Header implements Discovery_LRDD_Method {
 		$request = array( 'uri' => $context->uri );
 		$response = $context->fetch($request);
 		$status_digit = floor( $response['response']['code'] / 100 );
-
+    
 		if ($status_digit == 2 || $status_digit == 3) {
-			return self::parse( $response['headers']['link'] );
+		  if (array_key_exists('link', $response['headers'])) {
+		    return self::parse( $response['headers']['link'] );
+		  }
+			return null;
 		}
 	}
 
@@ -49,7 +52,7 @@ class Discovery_LRDD_Method_Link_Header implements Discovery_LRDD_Method {
 			}
 
 			$link = Discovery_LRDD_Link::from_header($header);
-			if ( $link && in_array('describedby', $link->rel) ) {
+			if ( $link && in_array('lrdd', $link->rel) ) {
 				$links[] = $link;
 			}
 		}
